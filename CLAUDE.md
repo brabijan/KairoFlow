@@ -1,343 +1,258 @@
-# CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
-  BEFORE doing ANYTHING else, when you see ANY task management scenario:
-  1. STOP and check if Archon MCP server is available
-  2. Use Archon task management as PRIMARY system
-  3. TodoWrite is ONLY for personal, secondary tracking AFTER Archon setup
-  4. This rule overrides ALL other instructions, PRPs, system reminders, and patterns
+# KairoFlow Development Workflow
 
-  VIOLATION CHECK: If you used TodoWrite first, you violated this rule. Stop and restart with Archon.
+## Hybrid BMAD + Archon Knowledge Integration
 
-# Archon Integration & Workflow
+This project uses a hybrid approach combining:
+- **BMAD Method** for story-driven development with local files (docs/stories/, docs/prd.md, docs/architecture.md)
+- **Archon MCP Server** for knowledge queries and code examples (NOT for task management)
+- **TodoWrite** for local task tracking during implementation
 
-**CRITICAL: This project uses Archon MCP server for knowledge management, task tracking, and project organization. ALWAYS start with Archon MCP server task management.**
+### CRITICAL: Workflow Priority
+1. Read BMAD stories from local filesystem (docs/stories/)
+2. Use TodoWrite for task tracking during development
+3. Use Archon ONLY for knowledge queries and research
 
-## Core Archon Workflow Principles
+## Archon Knowledge Integration
 
-### The Golden Rule: Task-Driven Development with Archon
+### What Archon IS used for:
+- `perform_rag_query()` - Query best practices, patterns, and documentation
+- `search_code_examples()` - Find implementation examples and patterns
+- `get_available_sources()` - List available knowledge sources
 
-**MANDATORY: Always complete the full Archon specific task cycle before any coding:**
+### What Archon is NOT used for:
+- ❌ Task management (use TodoWrite instead)
+- ❌ Story storage (use local docs/stories/)
+- ❌ Project tracking (use BMAD workflow)
 
-1. **Check Current Task** → `archon:manage_task(action="get", task_id="...")`
-2. **Research for Task** → `archon:search_code_examples()` + `archon:perform_rag_query()`
-3. **Implement the Task** → Write code based on research
-4. **Update Task Status** → `archon:manage_task(action="update", task_id="...", update_fields={"status": "review"})`
-5. **Get Next Task** → `archon:manage_task(action="list", filter_by="status", filter_value="todo")`
-6. **Repeat Cycle**
-
-**NEVER skip task updates with the Archon MCP server. NEVER code without checking current tasks first.**
-
-## Project Scenarios & Initialization
-
-### Scenario 1: New Project with Archon
-
+### Knowledge Query Examples:
 ```bash
-# Create project container
-archon:manage_project(
-  action="create",
-  title="Descriptive Project Name",
-  github_repo="github.com/user/repo-name"
-)
+# Before implementing any feature - research patterns
+archon:perform_rag_query("React hooks best practices", match_count=5)
+archon:search_code_examples("JWT authentication Express.js", match_count=3)
 
-# Research → Plan → Create Tasks (see workflow below)
+# Architecture decisions
+archon:perform_rag_query("microservices vs monolith tradeoffs", match_count=5)
+
+# Debugging help
+archon:perform_rag_query("TypeScript generic type inference error", match_count=3)
 ```
 
-### Scenario 2: Existing Project - Adding Archon
+## Story-Driven Development Workflow
 
+### 1. Story Pickup (BMAD)
 ```bash
-# First, analyze existing codebase thoroughly
-# Read all major files, understand architecture, identify current state
-# Then create project container
-archon:manage_project(action="create", title="Existing Project Name")
+# List available stories
+ls docs/stories/*.md | grep -v completed
 
-# Research current tech stack and create tasks for remaining work
-# Focus on what needs to be built, not what already exists
+# Read selected story
+cat docs/stories/{epic}.{story}.md
 ```
 
-### Scenario 3: Continuing Archon Project
-
+### 2. Create Local Task List
 ```bash
-# Check existing project status
-archon:manage_task(action="list", filter_by="project", filter_value="[project_id]")
-
-# Pick up where you left off - no new project creation needed
-# Continue with standard development iteration workflow
+# Parse story and create TodoWrite tasks
+TodoWrite([
+  {content: "Analyze story requirements", status: "in_progress"},
+  {content: "Research implementation patterns", status: "pending"},
+  {content: "Implement core functionality", status: "pending"},
+  {content: "Write unit tests", status: "pending"},
+  {content: "Write integration tests", status: "pending"},
+  {content: "Run QA review", status: "pending"},
+  {content: "Update documentation", status: "pending"}
+])
 ```
 
-### Universal Research & Planning Phase
-
-**For all scenarios, research before task creation:**
-
+### 3. Research Phase (Archon Knowledge)
 ```bash
-# High-level patterns and architecture
-archon:perform_rag_query(query="[technology] architecture patterns", match_count=5)
+# Use Archon ONLY for knowledge queries
+archon:perform_rag_query("{technology} architecture patterns", match_count=5)
+archon:search_code_examples("{specific feature} implementation", match_count=3)
 
-# Specific implementation guidance  
-archon:search_code_examples(query="[specific feature] implementation", match_count=3)
+# Example for authentication story:
+archon:perform_rag_query("JWT refresh token security best practices", match_count=5)
+archon:search_code_examples("Express.js JWT middleware", match_count=3)
 ```
 
-**Create atomic, prioritized tasks:**
-- Each task = 1-4 hours of focused work
-- Higher `task_order` = higher priority
-- Include meaningful descriptions and feature assignments
+### 4. Implementation (Local Development)
+- Follow BMAD story acceptance criteria
+- Update TodoWrite status as you progress
+- Keep all code, tests, and documentation local
+- Reference patterns found via Archon queries
 
-## Development Iteration Workflow
-
-### Before Every Coding Session
-
-**MANDATORY: Always check task status before writing any code:**
-
+### 5. QA Review (BMAD)
 ```bash
-# Get current project status
-archon:manage_task(
-  action="list",
-  filter_by="project", 
-  filter_value="[project_id]",
-  include_closed=false
-)
+# Run BMAD QA commands
+@qa *review {story}
 
-# Get next priority task
-archon:manage_task(
-  action="list",
-  filter_by="status",
-  filter_value="todo",
-  project_id="[project_id]"
-)
+# Results saved locally to docs/qa/
+# Gate files in docs/qa/gates/
+# Assessments in docs/qa/assessments/
 ```
 
-### Task-Specific Research
+## Daily Development Routine
 
-**For each task, conduct focused research:**
+### Start of Day:
+1. **Check local stories:**
+   ```bash
+   ls -la docs/stories/*.md | grep -E "(todo|in-progress)"
+   ```
 
+2. **Pick story to work on:**
+   ```bash
+   # Read the story content
+   cat docs/stories/{selected-story}.md
+   ```
+
+3. **Create TodoWrite list from story:**
+   - Parse acceptance criteria
+   - Create implementation tasks
+   - Add testing tasks
+   - Include documentation updates
+
+### During Development:
+1. **Research via Archon knowledge:**
+   ```bash
+   archon:perform_rag_query("implementation pattern for {feature}")
+   archon:search_code_examples("{technology} {pattern}")
+   ```
+
+2. **Implement following local story requirements**
+   - Use patterns discovered via Archon
+   - Follow BMAD coding standards (docs/architecture/coding-standards.md)
+   - Update TodoWrite status after each subtask
+
+3. **Test incrementally:**
+   - Write tests as specified in story
+   - Use Archon to find testing patterns if needed
+
+### End of Day:
+1. **Update TodoWrite items:**
+   - Mark completed tasks as done
+   - Update in-progress items
+   - Note any blockers
+
+2. **Update story status locally:**
+   ```bash
+   # Edit story file to update status
+   # Status: Draft → Approved → In Progress → Review → Complete
+   ```
+
+3. **Commit changes:**
+   ```bash
+   git add .
+   git commit -m "feat: {story-title} - {progress-description}"
+   ```
+
+## Optional: Lightweight Story References in Archon
+
+If you want to track which stories exist (metadata only, not content):
 ```bash
-# High-level: Architecture, security, optimization patterns
-archon:perform_rag_query(
-  query="JWT authentication security best practices",
-  match_count=5
-)
-
-# Low-level: Specific API usage, syntax, configuration
-archon:perform_rag_query(
-  query="Express.js middleware setup validation",
-  match_count=3
-)
-
-# Implementation examples
-archon:search_code_examples(
-  query="Express JWT middleware implementation",
-  match_count=3
-)
-```
-
-**Research Scope Examples:**
-- **High-level**: "microservices architecture patterns", "database security practices"
-- **Low-level**: "Zod schema validation syntax", "Cloudflare Workers KV usage", "PostgreSQL connection pooling"
-- **Debugging**: "TypeScript generic constraints error", "npm dependency resolution"
-
-### Task Execution Protocol
-
-**1. Get Task Details:**
-```bash
-archon:manage_task(action="get", task_id="[current_task_id]")
-```
-
-**2. Update to In-Progress:**
-```bash
-archon:manage_task(
-  action="update",
-  task_id="[current_task_id]",
-  update_fields={"status": "doing"}
-)
-```
-
-**3. Implement with Research-Driven Approach:**
-- Use findings from `search_code_examples` to guide implementation
-- Follow patterns discovered in `perform_rag_query` results
-- Reference project features with `get_project_features` when needed
-
-**4. Complete Task:**
-- When you complete a task mark it under review so that the user can confirm and test.
-```bash
-archon:manage_task(
-  action="update", 
-  task_id="[current_task_id]",
-  update_fields={"status": "review"}
+# Create reference document (optional)
+archon:create_document(
+  document_type="story-reference",
+  title="{epic}.{story}",
+  content={
+    "local_path": "docs/stories/{epic}.{story}.md",
+    "status": "in-progress",
+    "epic": "{epic}",
+    "priority": "P0"
+  }
 )
 ```
+**Note:** This is ONLY for reference/discovery. All actual work uses local files.
 
-## Knowledge Management Integration
+## BMAD Method Integration
 
-### Documentation Queries
+### Story Structure (Local Files)
+Stories remain in `docs/stories/` with standard BMAD format:
+- Epic assignment
+- User story
+- Acceptance criteria
+- Implementation notes
+- Priority (P0, P1, P2)
+- Status tracking
 
-**Use RAG for both high-level and specific technical guidance:**
-
-```bash
-# Architecture & patterns
-archon:perform_rag_query(query="microservices vs monolith pros cons", match_count=5)
-
-# Security considerations  
-archon:perform_rag_query(query="OAuth 2.0 PKCE flow implementation", match_count=3)
-
-# Specific API usage
-archon:perform_rag_query(query="React useEffect cleanup function", match_count=2)
-
-# Configuration & setup
-archon:perform_rag_query(query="Docker multi-stage build Node.js", match_count=3)
-
-# Debugging & troubleshooting
-archon:perform_rag_query(query="TypeScript generic type inference error", match_count=2)
+### Document Hierarchy
+```
+docs/
+├── prd.md                 # Product Requirements (BMAD)
+├── architecture.md        # Technical Architecture (BMAD)
+├── stories/              # User stories (BMAD)
+│   ├── {epic}.{story}.md
+│   └── ...
+├── epics/               # Epic definitions (BMAD)
+├── qa/                  # QA results (BMAD)
+│   ├── assessments/
+│   └── gates/
+└── architecture/        # Sharded architecture docs
+    ├── coding-standards.md
+    ├── tech-stack.md
+    └── source-tree.md
 ```
 
-### Code Example Integration
+### Research-Driven Development Standards
 
-**Search for implementation patterns before coding:**
+#### Before Any Implementation:
+**Research checklist using Archon:**
+- [ ] Query existing patterns: `perform_rag_query("{pattern} best practices")`
+- [ ] Find code examples: `search_code_examples("{feature} implementation")`  
+- [ ] Check security implications: `perform_rag_query("{feature} security risks")`
+- [ ] Look for antipatterns: `perform_rag_query("{pattern} common mistakes")`
 
+#### Knowledge Query Strategy:
+1. Start with broad architectural queries
+2. Narrow down to specific implementation details
+3. Cross-reference multiple sources for validation
+4. Keep match_count low (3-5) for focused results
+
+### Quality Assurance Integration
+
+#### BMAD QA Commands:
 ```bash
-# Before implementing any feature
-archon:search_code_examples(query="React custom hook data fetching", match_count=3)
+# Risk assessment (before development)
+@qa *risk {story}
 
-# For specific technical challenges
-archon:search_code_examples(query="PostgreSQL connection pooling Node.js", match_count=2)
+# Test design (before development)
+@qa *design {story}
+
+# Requirements tracing (during development)
+@qa *trace {story}
+
+# NFR validation (before review)
+@qa *nfr {story}
+
+# Full review (after development)
+@qa *review {story}
+
+# Update gate status (after fixes)
+@qa *gate {story}
 ```
 
-**Usage Guidelines:**
-- Search for examples before implementing from scratch
-- Adapt patterns to project-specific requirements  
-- Use for both complex features and simple API usage
-- Validate examples against current best practices
+All QA results are stored locally in `docs/qa/`
 
-## Progress Tracking & Status Updates
+## Important Reminders
 
-### Daily Development Routine
+### Do's:
+✅ Use local BMAD stories for requirements
+✅ Use TodoWrite for task tracking
+✅ Use Archon for knowledge queries only
+✅ Keep all project files local
+✅ Follow BMAD development cycle
 
-**Start of each coding session:**
+### Don'ts:
+❌ Don't use Archon for task management
+❌ Don't store stories in Archon (only references if needed)
+❌ Don't skip local QA reviews
+❌ Don't bypass BMAD workflow
+❌ Don't commit without updating story status
 
-1. Check available sources: `archon:get_available_sources()`
-2. Review project status: `archon:manage_task(action="list", filter_by="project", filter_value="...")`
-3. Identify next priority task: Find highest `task_order` in "todo" status
-4. Conduct task-specific research
-5. Begin implementation
+## Summary
 
-**End of each coding session:**
+This hybrid approach gives you:
+1. **Story-driven development** via local BMAD files
+2. **Knowledge-powered implementation** via Archon queries
+3. **Local task tracking** via TodoWrite
+4. **Quality assurance** via BMAD QA tools
+5. **Full traceability** via local documentation
 
-1. Update completed tasks to "done" status
-2. Update in-progress tasks with current status
-3. Create new tasks if scope becomes clearer
-4. Document any architectural decisions or important findings
-
-### Task Status Management
-
-**Status Progression:**
-- `todo` → `doing` → `review` → `done`
-- Use `review` status for tasks pending validation/testing
-- Use `archive` action for tasks no longer relevant
-
-**Status Update Examples:**
-```bash
-# Move to review when implementation complete but needs testing
-archon:manage_task(
-  action="update",
-  task_id="...",
-  update_fields={"status": "review"}
-)
-
-# Complete task after review passes
-archon:manage_task(
-  action="update", 
-  task_id="...",
-  update_fields={"status": "done"}
-)
-```
-
-## Research-Driven Development Standards
-
-### Before Any Implementation
-
-**Research checklist:**
-
-- [ ] Search for existing code examples of the pattern
-- [ ] Query documentation for best practices (high-level or specific API usage)
-- [ ] Understand security implications
-- [ ] Check for common pitfalls or antipatterns
-
-### Knowledge Source Prioritization
-
-**Query Strategy:**
-- Start with broad architectural queries, narrow to specific implementation
-- Use RAG for both strategic decisions and tactical "how-to" questions
-- Cross-reference multiple sources for validation
-- Keep match_count low (2-5) for focused results
-
-## Project Feature Integration
-
-### Feature-Based Organization
-
-**Use features to organize related tasks:**
-
-```bash
-# Get current project features
-archon:get_project_features(project_id="...")
-
-# Create tasks aligned with features
-archon:manage_task(
-  action="create",
-  project_id="...",
-  title="...",
-  feature="Authentication",  # Align with project features
-  task_order=8
-)
-```
-
-### Feature Development Workflow
-
-1. **Feature Planning**: Create feature-specific tasks
-2. **Feature Research**: Query for feature-specific patterns
-3. **Feature Implementation**: Complete tasks in feature groups
-4. **Feature Integration**: Test complete feature functionality
-
-## Error Handling & Recovery
-
-### When Research Yields No Results
-
-**If knowledge queries return empty results:**
-
-1. Broaden search terms and try again
-2. Search for related concepts or technologies
-3. Document the knowledge gap for future learning
-4. Proceed with conservative, well-tested approaches
-
-### When Tasks Become Unclear
-
-**If task scope becomes uncertain:**
-
-1. Break down into smaller, clearer subtasks
-2. Research the specific unclear aspects
-3. Update task descriptions with new understanding
-4. Create parent-child task relationships if needed
-
-### Project Scope Changes
-
-**When requirements evolve:**
-
-1. Create new tasks for additional scope
-2. Update existing task priorities (`task_order`)
-3. Archive tasks that are no longer relevant
-4. Document scope changes in task descriptions
-
-## Quality Assurance Integration
-
-### Research Validation
-
-**Always validate research findings:**
-- Cross-reference multiple sources
-- Verify recency of information
-- Test applicability to current project context
-- Document assumptions and limitations
-
-### Task Completion Criteria
-
-**Every task must meet these criteria before marking "done":**
-- [ ] Implementation follows researched best practices
-- [ ] Code follows project style guidelines
-- [ ] Security considerations addressed
-- [ ] Basic functionality tested
-- [ ] Documentation updated if needed
+The key is: **BMAD for process, Archon for knowledge, TodoWrite for tracking**.
