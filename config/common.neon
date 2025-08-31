@@ -1,0 +1,30 @@
+parameters:
+
+application:
+    errorPresenter: Error
+    mapping:
+        *: App\Module\*\*Presenter
+        Api: App\Module\Api\*Presenter
+        Front: App\Module\Front\*Presenter
+        Admin: App\Module\Admin\*Presenter
+
+session:
+    expiration: 14 days
+    savePath: '%tempDir%/sessions'
+
+http:
+    headers:
+        X-Frame-Options: SAMEORIGIN
+        X-Content-Type-Options: nosniff
+        X-XSS-Protection: '1; mode=block'
+
+di:
+    export:
+        parameters: false
+        tags: false
+
+routing:
+    routes:
+        '/health': 'Api:Health:default'
+        '/api/v1/<presenter>/<action>[/<id>]': 'Api:<presenter>:<action>'
+        '/<presenter>/<action>[/<id>]': 'Front:<presenter>:<action>'

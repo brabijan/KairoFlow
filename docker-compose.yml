@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - ./temp:/app/temp
+      - ./log:/app/log
+    environment:
+      - NETTE_DEBUG=1
+      - NETTE_ENV=development
+      - DATABASE_DSN=pgsql:host=postgres;dbname=kairoflow
+      - DATABASE_USER=kairoflow
+      - DATABASE_PASSWORD=kairoflow
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - kairoflow
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/app
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - kairoflow
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=kairoflow
+      - POSTGRES_USER=kairoflow
+      - POSTGRES_PASSWORD=kairoflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - kairoflow
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - kairoflow
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"  # SMTP port
+      - "8025:8025"  # Web UI
+    networks:
+      - kairoflow
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  kairoflow:
+    driver: bridge

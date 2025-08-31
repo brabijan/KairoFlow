@@ -1,0 +1,24 @@
+services:
+    # Redis client
+    redis.client:
+        factory: Redis
+        setup:
+            - connect(%redis.host%, %redis.port%)
+    
+    # Database connection
+    db.connection:
+        factory: PDO('pgsql:host=%database.host%;dbname=%database.dbname%', %database.user%, %database.password%)
+    
+    # Router factory
+    router:
+        factory: App\Core\RouterFactory::createRouter
+    
+    # Health check service
+    healthCheckService:
+        factory: App\Model\System\HealthCheckService
+        arguments:
+            redis: @redis.client
+            connection: @db.connection
+    
+    # Presenters
+    - App\Module\Api\HealthPresenter

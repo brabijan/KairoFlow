@@ -1,0 +1,36 @@
+# Local configuration - copy to local.neon and adjust values
+# This file should NOT be committed to version control
+
+parameters:
+    # Database configuration
+    database:
+        host: postgres  # Use 'localhost' for local dev, 'postgres' for Docker
+        dbname: kairoflow
+        user: kairoflow
+        password: kairoflow_secure_password
+    
+    # Redis configuration
+    redis:
+        host: redis  # Use 'localhost' for local dev, 'redis' for Docker
+        port: 6379
+        password: ''  # Set if Redis auth is enabled
+    
+    # Environment
+    environment: development
+    
+    # Debug mode
+    debugMode: true
+    consoleMode: false
+
+# Tracy debugger email for production errors
+tracy:
+    email: admin@example.com
+    showLocation: true
+
+# Override any other service configurations for local development
+services:
+    # Example: Use different mail handler for local dev
+    # mail.mailer:
+    #     smtp: false
+    #     host: localhost
+    #     port: 1025  # MailHog port
