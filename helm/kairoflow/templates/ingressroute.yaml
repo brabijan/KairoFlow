@@ -1,0 +1,55 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-https
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.host }}`)
+      kind: Rule
+      services:
+        - name: {{ include "kairoflow.fullname" . }}-web-app
+          port: 80
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}
+---
+# HTTP to HTTPS redirect
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-http
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ .Values.ingress.host }}`)
+      kind: Rule
+      services:
+        - name: {{ include "kairoflow.fullname" . }}-web-app
+          port: 80
+      middlewares:
+        - name: {{ include "kairoflow.fullname" . }}-redirect-https
+---
+# Redirect middleware
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-redirect-https
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+{{- end }}

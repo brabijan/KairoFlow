@@ -1,0 +1,253 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-web-app
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+    app: web-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "kairoflow.selectorLabels" . | nindent 6 }}
+      app: web-app
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/nginx-config.yaml") . | sha256sum }}
+      labels:
+        {{- include "kairoflow.selectorLabels" . | nindent 8 }}
+        app: web-app
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "kairoflow.serviceAccountName" . }}
+      securityContext:
+        fsGroup: 1000
+      containers:
+        # Nginx container
+        - name: nginx
+          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.nginx.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.probes.readiness | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.nginx | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+            - name: uploads
+              mountPath: /var/www/html/www/uploads
+            - name: sessions
+              mountPath: /var/www/html/var/tmp/session
+            - name: recordings
+              mountPath: /var/www/html/var/tmp/recordings
+            - name: transcriptions
+              mountPath: /var/www/html/var/tmp/transcriptions
+            - name: app-logs
+              mountPath: /var/www/html/var/log
+        
+        # PHP-FPM container
+        - name: php
+          image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.php.pullPolicy }}
+          ports:
+            - name: php-fpm
+              containerPort: 9000
+              protocol: TCP
+          env:
+            # Application environment
+            - name: NETTE_ENV
+              value: {{ .Values.env.NETTE_ENV | quote }}
+            - name: NETTE_DEBUG
+              value: {{ .Values.env.NETTE_DEBUG | quote }}
+            
+            # PHP configuration
+            - name: PHP_MAX_EXECUTION_TIME
+              value: {{ .Values.env.PHP_MAX_EXECUTION_TIME | quote }}
+            - name: PHP_MEMORY_LIMIT
+              value: {{ .Values.env.PHP_MEMORY_LIMIT | quote }}
+            - name: PHP_POST_MAX_SIZE
+              value: {{ .Values.env.PHP_POST_MAX_SIZE | quote }}
+            - name: PHP_UPLOAD_MAX_FILESIZE
+              value: {{ .Values.env.PHP_UPLOAD_MAX_FILESIZE | quote }}
+            
+            # Database configuration
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-database-secret
+                  key: host
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-database-secret
+                  key: port
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-database-secret
+                  key: name
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-database-secret
+                  key: user
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-database-secret
+                  key: password
+            
+            # Redis configuration
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-redis-secret
+                  key: host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-redis-secret
+                  key: port
+            {{- if .Values.redis.password }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-redis-secret
+                  key: password
+            {{- end }}
+            
+            # MinIO/S3 configuration
+            - name: MINIO_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-minio-secret
+                  key: endpoint
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-minio-secret
+                  key: accessKey
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-minio-secret
+                  key: secretKey
+            - name: MINIO_USE_SSL
+              value: {{ .Values.minio.useSSL | quote }}
+            
+            # OpenAI configuration
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-openai-secret
+                  key: apiKey
+            
+            # Application secrets
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-app-secret
+                  key: appSecret
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-app-secret
+                  key: jwtSecret
+          
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "php bin/console migrations:migrate --no-interaction --allow-no-migration"
+          
+          resources:
+            {{- toYaml .Values.resources.php | nindent 12 }}
+          
+          volumeMounts:
+            - name: uploads
+              mountPath: /var/www/html/www/uploads
+            - name: sessions
+              mountPath: /var/www/html/var/tmp/session
+            - name: recordings
+              mountPath: /var/www/html/var/tmp/recordings
+            - name: transcriptions
+              mountPath: /var/www/html/var/tmp/transcriptions
+            - name: app-logs
+              mountPath: /var/www/html/var/log
+      
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ include "kairoflow.fullname" . }}-nginx-config
+        - name: uploads
+          {{- if .Values.persistence.uploads.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.uploads.existingClaim }}
+          {{- else if .Values.persistence.uploads.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "kairoflow.fullname" . }}-uploads
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: sessions
+          {{- if .Values.persistence.sessions.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.sessions.existingClaim }}
+          {{- else if .Values.persistence.sessions.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "kairoflow.fullname" . }}-sessions
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: recordings
+          {{- if .Values.persistence.recordings.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.recordings.existingClaim }}
+          {{- else if .Values.persistence.recordings.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "kairoflow.fullname" . }}-recordings
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: transcriptions
+          {{- if .Values.persistence.transcriptions.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.transcriptions.existingClaim }}
+          {{- else if .Values.persistence.transcriptions.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "kairoflow.fullname" . }}-transcriptions
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: app-logs
+          emptyDir: {}

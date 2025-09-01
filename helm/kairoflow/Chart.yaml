@@ -1,0 +1,19 @@
+apiVersion: v2
+name: kairoflow
+description: A Helm chart for KairoFlow - ADHD-optimized financial & task management system
+type: application
+version: 0.1.0
+appVersion: 1.0.0
+keywords:
+  - kairoflow
+  - php
+  - nette
+  - financial
+  - task-management
+home: https://github.com/your-org/kairoflow
+sources:
+  - https://github.com/your-org/kairoflow
+maintainers:
+  - name: KairoFlow Team
+    email: team@kairoflow.example.com
+dependencies: []

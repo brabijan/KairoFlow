@@ -1,0 +1,18 @@
+{{- if and .Values.persistence.uploads.enabled (not .Values.persistence.uploads.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-uploads
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.uploads.accessMode }}
+  {{- if .Values.persistence.uploads.storageClass }}
+  storageClassName: {{ .Values.persistence.uploads.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.uploads.size }}
+{{- end }}

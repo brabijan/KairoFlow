@@ -1,0 +1,199 @@
+# Default values for kairoflow.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Application deployment configuration
+replicaCount: 1
+
+# Image configuration
+image:
+  nginx:
+    repository: ghcr.io/your-org/kairoflow/nginx
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  php:
+    repository: ghcr.io/your-org/kairoflow/php
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+# ServiceAccount configuration
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Image pull secrets for GHCR
+imagePullSecrets:
+  - name: ghcr-secret
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  annotations: {}
+
+# Ingress configuration (using Traefik IngressRoute)
+ingress:
+  enabled: true
+  host: kairoflow.example.com
+  tls:
+    enabled: true
+    secretName: kairoflow-tls
+  annotations: {}
+
+# Certificate configuration (cert-manager)
+certificate:
+  enabled: true
+  issuer:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+# Resource limits and requests
+resources:
+  nginx:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  php:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+# Node selector (optional)
+nodeSelector: {}
+  # kubernetes.io/hostname: specific-node
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Probes configuration
+probes:
+  liveness:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readiness:
+    httpGet:
+      path: /health
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
+
+# Environment variables for the application
+env:
+  # Application environment
+  NETTE_ENV: "prod"
+  NETTE_DEBUG: "0"
+  
+  # PHP configuration
+  PHP_MAX_EXECUTION_TIME: "600"
+  PHP_MEMORY_LIMIT: "512M"
+  PHP_POST_MAX_SIZE: "500M"
+  PHP_UPLOAD_MAX_FILESIZE: "500M"
+
+# External database configuration
+database:
+  host: ""
+  port: "5432"
+  name: "kairoflow"
+  user: ""
+  password: ""  # Will be created as secret
+
+# External Redis configuration
+redis:
+  host: ""
+  port: "6379"
+  password: ""  # Will be created as secret (optional)
+
+# MinIO/S3 configuration
+minio:
+  endpoint: ""
+  accessKey: ""  # Will be created as secret
+  secretKey: ""  # Will be created as secret
+  useSSL: true
+
+# OpenAI configuration
+openai:
+  apiKey: ""  # Will be created as secret
+
+# Application secrets
+appSecrets:
+  appSecret: ""  # Will be created as secret
+  jwtSecret: ""  # Will be created as secret
+
+# Persistent Volume Claims
+persistence:
+  uploads:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    existingClaim: ""
+  sessions:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 2Gi
+    existingClaim: ""
+  recordings:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    existingClaim: ""
+  transcriptions:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    existingClaim: ""
+
+# CronJob configuration
+cronjobs:
+  emailProcessor:
+    enabled: true
+    schedule: "*/1 * * * *"
+    concurrencyPolicy: Forbid
+    activeDeadlineSeconds: 50
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+
+# Nginx configuration
+nginx:
+  clientMaxBodySize: "500M"
+  proxyConnectTimeout: "600s"
+  proxySendTimeout: "600s"
+  proxyReadTimeout: "600s"
+  workerProcesses: "auto"
+  workerConnections: "1024"
+
+# GitHub Container Registry authentication
+ghcr:
+  username: ""
+  password: ""  # GitHub PAT with read:packages scope
+
+# Namespace
+namespace: kairoflow

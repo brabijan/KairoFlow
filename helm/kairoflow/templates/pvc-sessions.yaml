@@ -1,0 +1,18 @@
+{{- if and .Values.persistence.sessions.enabled (not .Values.persistence.sessions.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-sessions
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.sessions.accessMode }}
+  {{- if .Values.persistence.sessions.storageClass }}
+  storageClassName: {{ .Values.persistence.sessions.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.sessions.size }}
+{{- end }}

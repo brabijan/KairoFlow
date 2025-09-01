@@ -1,0 +1,18 @@
+{{- if and .Values.persistence.transcriptions.enabled (not .Values.persistence.transcriptions.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-transcriptions
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.transcriptions.accessMode }}
+  {{- if .Values.persistence.transcriptions.storageClass }}
+  storageClassName: {{ .Values.persistence.transcriptions.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.transcriptions.size }}
+{{- end }}

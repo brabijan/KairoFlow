@@ -1,0 +1,97 @@
+{{- if .Values.cronjobs.emailProcessor.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-email-processor
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cronjobs.emailProcessor.schedule | quote }}
+  concurrencyPolicy: {{ .Values.cronjobs.emailProcessor.concurrencyPolicy }}
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: {{ .Values.cronjobs.emailProcessor.activeDeadlineSeconds }}
+      template:
+        metadata:
+          labels:
+            {{- include "kairoflow.selectorLabels" . | nindent 12 }}
+            app: email-processor
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: OnFailure
+          containers:
+            - name: email-processor
+              image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.php.pullPolicy }}
+              command:
+                - php
+                - bin/console
+                - app:email:process
+              env:
+                # Application environment
+                - name: NETTE_ENV
+                  value: {{ .Values.env.NETTE_ENV | quote }}
+                - name: NETTE_DEBUG
+                  value: {{ .Values.env.NETTE_DEBUG | quote }}
+                
+                # Database configuration
+                - name: DATABASE_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-database-secret
+                      key: host
+                - name: DATABASE_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-database-secret
+                      key: port
+                - name: DATABASE_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-database-secret
+                      key: name
+                - name: DATABASE_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-database-secret
+                      key: user
+                - name: DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-database-secret
+                      key: password
+                
+                # Redis configuration
+                - name: REDIS_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-redis-secret
+                      key: host
+                - name: REDIS_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-redis-secret
+                      key: port
+                {{- if .Values.redis.password }}
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-redis-secret
+                      key: password
+                {{- end }}
+                
+                # Application secrets
+                - name: APP_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "kairoflow.fullname" . }}-app-secret
+                      key: appSecret
+              resources:
+                {{- toYaml .Values.cronjobs.emailProcessor.resources | nindent 16 }}
+{{- end }}
