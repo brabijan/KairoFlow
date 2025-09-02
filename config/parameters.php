@@ -39,25 +39,25 @@ if ($minioEndpoint !== false) {
     $return['parameters']['minio'] = [
         'endpoint' => $minioEndpoint,
         'access_key' => getenv('MINIO_ACCESS_KEY') ?: '',
-        'secret_key' => getenv('MINIO_SECRET_KEY') ?: '',
-        'use_ssl' => getenv('MINIO_USE_SSL') === 'true',
-    ];
+		'secret_key' => getenv('MINIO_SECRET_KEY') ?: '',
+		'use_ssl' => getenv('MINIO_USE_SSL') === 'true',
+	];
 }
 
 // OpenAI configuration from ENV
 $openaiKey = getenv('OPENAI_API_KEY');
 if ($openaiKey !== false) {
-    $return['parameters']['openai'] = [
-        'api_key' => $openaiKey,
-    ];
-}
+	$return['parameters']['openai'] = [
+		'api_key' => $openaiKey,
+	];}
 
 // Application secrets from ENV
 $appSecret = getenv('APP_SECRET');
+
 if ($appSecret !== false) {
-    $return['parameters']['app'] = [
-        'secret' => $appSecret,
-        'jwt_secret' => getenv('JWT_SECRET') ?: $appSecret,
+	$return['parameters']['app'] = [
+		'secret' => $appSecret,
+		'jwt_secret' => getenv('JWT_SECRET') ?: $appSecret,
     ];
 }
 
