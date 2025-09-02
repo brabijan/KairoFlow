@@ -94,13 +94,17 @@ jobs:
       - name: Configure kubectl
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          export KUBECONFIG=$(pwd)/kubeconfig
+          chmod 600 kubeconfig
 
       - name: Create namespace if not exists
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create namespace kairoflow --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Update GHCR secret
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create secret docker-registry ghcr-secret \
             --namespace=kairoflow \
@@ -116,6 +120,7 @@ jobs:
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create secret generic kairoflow-database-secret \
             --namespace=kairoflow \
@@ -132,6 +137,7 @@ jobs:
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create secret generic kairoflow-redis-secret \
             --namespace=kairoflow \
@@ -146,6 +152,7 @@ jobs:
           MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
           MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
           MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create secret generic kairoflow-minio-secret \
             --namespace=kairoflow \
@@ -158,6 +165,7 @@ jobs:
         if: env.OPENAI_API_KEY != ''
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create secret generic kairoflow-openai-secret \
             --namespace=kairoflow \
@@ -165,6 +173,8 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Update application secrets
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           # Generate secrets if not provided
           APP_SECRET="${{ secrets.APP_SECRET }}"
@@ -202,7 +212,7 @@ jobs:
       - name: Configure kubectl
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          export KUBECONFIG=$(pwd)/kubeconfig
+          chmod 600 kubeconfig
 
       - name: Update Helm values
         run: |
@@ -224,9 +234,9 @@ jobs:
           EOF
 
       - name: Deploy with Helm
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          export KUBECONFIG=$(pwd)/kubeconfig
-          
           # Upgrade or install
           helm upgrade --install kairoflow ./helm/kairoflow \
             --namespace kairoflow \
@@ -236,9 +246,9 @@ jobs:
             --timeout 10m
 
       - name: Verify deployment
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          export KUBECONFIG=$(pwd)/kubeconfig
-          
           # Wait for deployment to be ready
           kubectl rollout status deployment/kairoflow-web-app -n kairoflow --timeout=5m
           
@@ -249,9 +259,9 @@ jobs:
           kubectl get all -n kairoflow
 
       - name: Run post-deployment tests
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          export KUBECONFIG=$(pwd)/kubeconfig
-          
           # Get service endpoint
           SERVICE_IP=$(kubectl get service kairoflow-web-app -n kairoflow -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           
@@ -273,12 +283,13 @@ jobs:
       - name: Configure kubectl
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          export KUBECONFIG=$(pwd)/kubeconfig
+          chmod 600 kubeconfig
 
       - name: Rollback Helm release
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          export KUBECONFIG=$(pwd)/kubeconfig
-          helm rollback kairoflow -n kairoflow
+          helm rollback kairoflow -n kairoflow || echo "No previous release to rollback"
 
       - name: Notify rollback
         run: |
