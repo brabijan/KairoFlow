@@ -36,7 +36,7 @@ service:
 # Ingress configuration (using Traefik IngressRoute)
 ingress:
   enabled: true
-  host: kairoflow.example.com
+  host: kairoflow.carpiftw.cz
   tls:
     enabled: true
     secretName: kairoflow-tls
