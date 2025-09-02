@@ -237,10 +237,9 @@ jobs:
         env:
           KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          # Upgrade or install
+          # Upgrade or install (namespace already created in infrastructure job)
           helm upgrade --install kairoflow ./helm/kairoflow \
             --namespace kairoflow \
-            --create-namespace \
             --values values.prod.yaml \
             --wait \
             --timeout 10m
