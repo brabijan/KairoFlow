@@ -54,6 +54,7 @@ jobs:
         with:
           context: .
           file: docker/php/Dockerfile
+          target: production
           push: true
           tags: |
             ${{ env.REGISTRY }}/brabijan/kairoflow/php:latest

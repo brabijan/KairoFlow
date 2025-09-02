@@ -1,16 +1,29 @@
-# Build stage
-FROM php:8.4-fpm-alpine AS builder
+# Base stage with all PHP extensions
+FROM php:8.4-fpm-alpine AS base
 
-# Install build dependencies
+# Install build dependencies and runtime libraries
 RUN apk add --no-cache \
+    # Build dependencies
     $PHPIZE_DEPS \
+    autoconf \
+    g++ \
+    make \
+    # Runtime libraries
     postgresql-dev \
+    postgresql-libs \
     icu-dev \
+    icu-libs \
     libzip-dev \
+    libzip \
     libpng-dev \
+    libpng \
     libjpeg-turbo-dev \
+    libjpeg-turbo \
     freetype-dev \
+    freetype \
     libsodium-dev \
+    libsodium \
+    fcgi \
     git \
     unzip
 
@@ -34,11 +47,34 @@ RUN docker-php-ext-configure gd \
 RUN pecl install redis \
     && docker-php-ext-enable redis
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Clean up build dependencies (keep runtime libraries)
+RUN apk del \
+    autoconf \
+    g++ \
+    make \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libsodium-dev \
+    icu-dev \
+    libzip-dev \
+    && rm -rf /tmp/pear
+
+# Create www-data user with UID 1000
+RUN adduser -D -u 1000 -g 1000 www-data || true
+
+# Configure PHP
+COPY docker/php/php.ini /usr/local/etc/php/php.ini
+COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Builder stage for application
+FROM base AS builder
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copy composer files
 COPY composer.json composer.lock ./
@@ -61,42 +97,17 @@ RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
 # Generate Doctrine proxies
 RUN php bin/console orm:generate-proxies || true
 
-# Production stage
-FROM php:8.4-fpm-alpine
-
-# Install runtime dependencies
-RUN apk add --no-cache \
-    postgresql-libs \
-    icu-libs \
-    libzip \
-    libpng \
-    libjpeg-turbo \
-    freetype \
-    libsodium \
-    fcgi
-
-# Install PHP extensions from builder
-COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
-COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
-
-# Create www-data user with UID 1000
-RUN adduser -D -u 1000 -g 1000 www-data || true
-
-# Configure PHP
-COPY docker/php/php.ini /usr/local/etc/php/php.ini
-COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy application from builder
-COPY --from=builder --chown=www-data:www-data /var/www/html /var/www/html
-
 # Create required directories
-RUN mkdir -p var/tmp/session var/tmp/recordings var/tmp/transcriptions var/log www/uploads \
+RUN mkdir -p var/tmp/session var/tmp/recordings var/tmp/transcriptions var/log www/uploads temp log \
     && chown -R www-data:www-data var www/uploads temp log \
     && chmod -R 755 var www/uploads \
     && chmod -R 777 temp log
+
+# Production stage
+FROM base AS production
+
+# Copy application from builder
+COPY --from=builder --chown=www-data:www-data /var/www/html /var/www/html
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
@@ -111,14 +122,17 @@ EXPOSE 9000
 # Start PHP-FPM
 CMD ["php-fpm", "-F"]
 
-# Development stage (optional - can be used with --target=development)
-FROM builder AS development
+# Development stage
+FROM base AS development
 
-# Install linux headers for Xdebug
-RUN apk add --no-cache linux-headers
+# Re-install build tools for development
+RUN apk add --no-cache \
+    $PHPIZE_DEPS \
+    linux-headers
 
 # Install Xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 # Configure Xdebug
 RUN { \
@@ -136,7 +150,21 @@ RUN { \
         echo 'error_reporting=E_ALL'; \
     } > /usr/local/etc/php/conf.d/development.ini
 
-WORKDIR /var/www/html
+# Install Composer for development
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy application code
+COPY . .
+
+# Install dependencies with dev dependencies
+RUN composer install \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-progress
+
+# Create required directories
+RUN mkdir -p var/tmp/session var/tmp/recordings var/tmp/transcriptions var/log www/uploads temp log \
+    && chmod -R 777 var www/uploads temp log
 
 # For development, we don't switch to www-data to allow file editing
 EXPOSE 9000
