@@ -8,11 +8,11 @@ replicaCount: 1
 # Image configuration
 image:
   nginx:
-    repository: ghcr.io/your-org/kairoflow/nginx
+    repository: ghcr.io/brabijan/kairoflow/nginx
     pullPolicy: IfNotPresent
     tag: "latest"
   php:
-    repository: ghcr.io/your-org/kairoflow/php
+    repository: ghcr.io/brabijan/kairoflow/php
     pullPolicy: IfNotPresent
     tag: "latest"
 
