@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
+    libsodium-dev \
     git \
     unzip
 
@@ -25,7 +26,13 @@ RUN docker-php-ext-configure gd \
     zip \
     gd \
     opcache \
-    bcmath
+    bcmath \
+    sodium \
+    pcntl
+
+# Install Redis extension via PECL
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -65,6 +72,7 @@ RUN apk add --no-cache \
     libpng \
     libjpeg-turbo \
     freetype \
+    libsodium \
     fcgi
 
 # Install PHP extensions from builder
@@ -86,8 +94,9 @@ COPY --from=builder --chown=www-data:www-data /var/www/html /var/www/html
 
 # Create required directories
 RUN mkdir -p var/tmp/session var/tmp/recordings var/tmp/transcriptions var/log www/uploads \
-    && chown -R www-data:www-data var www/uploads \
-    && chmod -R 755 var www/uploads
+    && chown -R www-data:www-data var www/uploads temp log \
+    && chmod -R 755 var www/uploads \
+    && chmod -R 777 temp log
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
@@ -100,4 +109,36 @@ USER www-data
 EXPOSE 9000
 
 # Start PHP-FPM
+CMD ["php-fpm", "-F"]
+
+# Development stage (optional - can be used with --target=development)
+FROM builder AS development
+
+# Install linux headers for Xdebug
+RUN apk add --no-cache linux-headers
+
+# Install Xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Configure Xdebug
+RUN { \
+        echo 'xdebug.mode=debug'; \
+        echo 'xdebug.client_host=host.docker.internal'; \
+        echo 'xdebug.start_with_request=yes'; \
+    } > /usr/local/etc/php/conf.d/xdebug.ini
+
+# Set development PHP configuration
+RUN { \
+        echo 'opcache.validate_timestamps=1'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'display_errors=On'; \
+        echo 'display_startup_errors=On'; \
+        echo 'error_reporting=E_ALL'; \
+    } > /usr/local/etc/php/conf.d/development.ini
+
+WORKDIR /var/www/html
+
+# For development, we don't switch to www-data to allow file editing
+EXPOSE 9000
+
 CMD ["php-fpm", "-F"]
