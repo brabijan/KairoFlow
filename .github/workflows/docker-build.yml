@@ -123,7 +123,7 @@ jobs:
           # Ingress configuration
           ingress:
             enabled: true
-            host: ${{ secrets.INGRESS_HOST || 'kairoflow.example.com' }}
+            host: ${{ secrets.INGRESS_HOST || 'kairoflow.carpiftw.cz' }}
             tls:
               enabled: true
               secretName: kairoflow-tls

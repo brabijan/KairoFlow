@@ -10,10 +10,10 @@ keywords:
   - nette
   - financial
   - task-management
-home: https://github.com/your-org/kairoflow
+home: https://github.com/brabijan/KairoFlow
 sources:
-  - https://github.com/your-org/kairoflow
+  - https://github.com/brabijan/KairoFlow
 maintainers:
   - name: KairoFlow Team
-    email: team@kairoflow.example.com
+    email: team@kairoflow.carpiftw.cz
 dependencies: []

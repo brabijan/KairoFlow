@@ -739,14 +739,14 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: kairoflow.example.com
+    - host: kairoflow.carpiftw.cz
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: kairoflow-tls
       hosts:
-        - kairoflow.example.com
+        - kairoflow.carpiftw.cz
 
 postgresql:
   enabled: true

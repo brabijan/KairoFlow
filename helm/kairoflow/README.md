@@ -157,7 +157,7 @@ helm upgrade kairoflow ./helm/kairoflow \
 | `replicaCount` | Number of application replicas | `1` |
 | `image.nginx.repository` | Nginx image repository | `ghcr.io/your-org/kairoflow/nginx` |
 | `image.php.repository` | PHP image repository | `ghcr.io/your-org/kairoflow/php` |
-| `ingress.host` | Application hostname | `kairoflow.example.com` |
+| `ingress.host` | Application hostname | `kairoflow.carpiftw.cz` |
 | `ingress.tls.enabled` | Enable HTTPS | `true` |
 | `database.host` | PostgreSQL host | `""` |
 | `redis.host` | Redis host | `""` |
@@ -319,8 +319,7 @@ spec:
 ## Support
 
 For issues and questions:
-- GitHub Issues: https://github.com/your-org/kairoflow/issues
-- Documentation: https://docs.kairoflow.example.com
+- GitHub Issues: https://github.com/brabijan/KairoFlow/issues
 
 ## License
 

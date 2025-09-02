@@ -172,7 +172,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`kairoflow.example.com`)
+    - match: Host(`kairoflow.carpiftw.cz`)
       kind: Rule
       services:
         - name: web-app
@@ -190,7 +190,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`kairoflow.example.com`)
+    - match: Host(`kairoflow.carpiftw.cz`)
       kind: Rule
       services:
         - name: web-app
@@ -224,7 +224,7 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - kairoflow.example.com
+    - kairoflow.carpiftw.cz
 ```
 
 ## Persistent Storage
