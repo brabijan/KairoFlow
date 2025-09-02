@@ -96,11 +96,14 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
           chmod 600 kubeconfig
 
-      - name: Create namespace if not exists
+      - name: Create namespace if not exists with Helm metadata
         env:
           KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           kubectl create namespace kairoflow --dry-run=client -o yaml | kubectl apply -f -
+          kubectl label namespace kairoflow app.kubernetes.io/managed-by=Helm --overwrite
+          kubectl annotate namespace kairoflow meta.helm.sh/release-name=kairoflow --overwrite
+          kubectl annotate namespace kairoflow meta.helm.sh/release-namespace=kairoflow --overwrite
 
       - name: Update GHCR secret
         env:
