@@ -171,10 +171,12 @@ jobs:
         env:
           KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
-          # Deploy application with Helm (creates namespace and all resources)
+          # Ensure namespace exists (create if needed, skip if exists)
+          kubectl create namespace kairoflow --dry-run=client -o yaml | kubectl apply -f -
+          
+          # Deploy application with Helm (manages all resources including secrets)
           helm upgrade --install kairoflow ./helm/kairoflow \
             --namespace kairoflow \
-            --create-namespace \
             --values values.prod.yaml \
             --wait \
             --timeout 10m
