@@ -1,4 +1,16 @@
 parameters:
+    # Default values (can be overridden by environment variables via parameters.php)
+    database:
+        host: postgres
+        dbname: kairoflow
+        user: kairoflow
+        password: kairoflow_secure_password
+        port: 5432
+    
+    redis:
+        host: redis
+        port: 6379
+        password: ''
 
 application:
     errorPresenter: Error

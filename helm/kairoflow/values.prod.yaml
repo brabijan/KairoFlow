@@ -1,0 +1,83 @@
+# Production values for kairoflow
+# This overrides default values.yaml
+
+# Image configuration - use brabijan repository
+image:
+  nginx:
+    repository: ghcr.io/brabijan/kairoflow/nginx
+    tag: "latest"
+  php:
+    repository: ghcr.io/brabijan/kairoflow/php
+    tag: "latest"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  host: kairoflow.carpiftw.cz
+  tls:
+    enabled: true
+    secretName: kairoflow-tls
+
+# External database configuration
+database:
+  host: "postgres.kairoflow.svc.cluster.local"  # Nebo externí host
+  port: "5432"
+  name: "kairoflow"
+  user: "kairoflow"
+  password: "changeme"  # Toto by mělo být v secretu
+
+# External Redis configuration
+redis:
+  host: "redis.kairoflow.svc.cluster.local"  # Nebo externí host
+  port: "6379"
+  password: ""  # Pokud Redis vyžaduje heslo
+
+# MinIO/S3 configuration (optional - zakomentujte pokud nepoužíváte)
+# minio:
+#   endpoint: "minio.kairoflow.svc.cluster.local"
+#   accessKey: "minioadmin"
+#   secretKey: "minioadmin"
+#   useSSL: false
+
+# OpenAI configuration (optional - zakomentujte pokud nepoužíváte)
+# openai:
+#   apiKey: "sk-..."
+
+# Application secrets
+appSecrets:
+  appSecret: "changeme-generate-random-32-chars"  # Použijte: openssl rand -hex 32
+  jwtSecret: "changeme-generate-random-32-chars"  # Použijte: openssl rand -hex 32
+
+# GitHub Container Registry
+ghcr:
+  username: "brabijan"
+  password: ""  # GitHub PAT with read:packages scope
+
+# Environment
+env:
+  NETTE_ENV: "prod"
+  NETTE_DEBUG: "0"
+
+# Persistence
+persistence:
+  uploads:
+    enabled: true
+    storageClass: ""  # Použije default storage class
+    size: 5Gi
+  sessions:
+    enabled: true
+    storageClass: ""
+    size: 2Gi
+  recordings:
+    enabled: true
+    storageClass: ""
+    size: 10Gi
+  transcriptions:
+    enabled: true
+    storageClass: ""
+    size: 5Gi
+
+# CronJobs
+cronjobs:
+  emailProcessor:
+    enabled: false  # Povolte až bude potřeba

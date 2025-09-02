@@ -20,10 +20,18 @@ final class Bootstrap
             ->addDirectory(__DIR__)
             ->register();
 
+        // Load configuration files
         $configurator->addConfig($appDir . '/config/common.neon');
         $configurator->addConfig($appDir . '/config/extensions.neon');
         $configurator->addConfig($appDir . '/config/services.neon');
         
+        // Load environment parameters from PHP file
+        $parametersFile = $appDir . '/config/parameters.php';
+        if (file_exists($parametersFile)) {
+            $configurator->addConfig($parametersFile);
+        }
+        
+        // Load local configuration if exists (for development)
         if (file_exists($appDir . '/config/local.neon')) {
             $configurator->addConfig($appDir . '/config/local.neon');
         }
