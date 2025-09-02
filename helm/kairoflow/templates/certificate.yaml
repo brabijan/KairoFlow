@@ -3,7 +3,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ include "kairoflow.fullname" . }}-tls
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
 spec:

@@ -194,6 +194,3 @@ nginx:
 ghcr:
   username: ""
   password: ""  # GitHub PAT with read:packages scope
-
-# Namespace
-namespace: kairoflow

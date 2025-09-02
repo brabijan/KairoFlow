@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "kairoflow.fullname" . }}-web-app
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
     app: web-app

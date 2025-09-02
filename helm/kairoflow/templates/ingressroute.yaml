@@ -3,7 +3,6 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "kairoflow.fullname" . }}-https
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
 spec:
@@ -25,7 +24,6 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "kairoflow.fullname" . }}-http
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
 spec:
@@ -45,7 +43,6 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: {{ include "kairoflow.fullname" . }}-redirect-https
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
 spec:

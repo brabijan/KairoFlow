@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "kairoflow.fullname" . }}-email-processor
-  namespace: {{ .Values.namespace }}
   labels:
     {{- include "kairoflow.labels" . | nindent 4 }}
 spec:
