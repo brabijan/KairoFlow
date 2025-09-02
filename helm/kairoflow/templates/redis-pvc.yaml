@@ -1,0 +1,19 @@
+{{- if and .Values.redis.internal.enabled .Values.redis.internal.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-redis-data
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+    app: redis
+spec:
+  accessModes:
+    - {{ .Values.redis.internal.persistence.accessMode }}
+  {{- if .Values.redis.internal.persistence.storageClass }}
+  storageClassName: {{ .Values.redis.internal.persistence.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.redis.internal.persistence.size }}
+{{- end }}

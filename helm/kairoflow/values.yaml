@@ -118,12 +118,34 @@ database:
   user: ""  # Default: kairoflow
   password: ""  # Default: changeme (auto-generated in production)
 
-# External Redis configuration
-# Leave empty to use defaults (for development/testing)
+# Redis configuration
 redis:
-  host: ""  # Default: redis.default.svc.cluster.local
+  # Internal Redis deployment (recommended for development)
+  internal:
+    enabled: true  # Set to false to use external Redis
+    image:
+      repository: redis
+      tag: "7-alpine"
+      pullPolicy: IfNotPresent
+    password: ""  # Leave empty for no auth, or set a password
+    persistence:
+      enabled: true
+      storageClass: ""
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+  
+  # External Redis configuration (used when internal.enabled=false)
+  # Leave empty to use internal Redis
+  host: ""  # External Redis host
   port: ""  # Default: 6379
-  password: ""  # Default: empty (no auth)
+  password: ""  # External Redis password
 
 # MinIO/S3 configuration
 # Leave empty to use defaults (for development/testing)

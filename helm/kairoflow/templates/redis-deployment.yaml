@@ -1,0 +1,74 @@
+{{- if .Values.redis.internal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kairoflow.fullname" . }}-redis
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kairoflow.labels" . | nindent 4 }}
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "kairoflow.selectorLabels" . | nindent 6 }}
+      app: redis
+  template:
+    metadata:
+      labels:
+        {{- include "kairoflow.selectorLabels" . | nindent 8 }}
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: "{{ .Values.redis.internal.image.repository }}:{{ .Values.redis.internal.image.tag }}"
+          imagePullPolicy: {{ .Values.redis.internal.image.pullPolicy }}
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: redis
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.redis.internal.resources | nindent 12 }}
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+          {{- if .Values.redis.internal.password }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kairoflow.fullname" . }}-redis-internal-secret
+                  key: password
+          command:
+            - redis-server
+            - --requirepass
+            - $(REDIS_PASSWORD)
+            - --appendonly
+            - "yes"
+          {{- else }}
+          command:
+            - redis-server
+            - --appendonly
+            - "yes"
+          {{- end }}
+      volumes:
+        - name: redis-data
+          {{- if .Values.redis.internal.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "kairoflow.fullname" . }}-redis-data
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+{{- end }}
