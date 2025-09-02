@@ -1,0 +1,47 @@
+# Extension > Contributte
+#
+extensions:
+	contributte.console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	contributte.console.extra: Contributte\Console\Extra\DI\ConsoleBridgesExtension(%consoleMode%)
+	contributte.events: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	contributte.events2nette: Contributte\Events\Extra\DI\EventBridgesExtension
+	contributte.monolog: Contributte\Monolog\DI\MonologExtension
+	contributte.mailing: Contributte\Mailing\DI\MailingExtension
+	contributte.mail: Contributte\Mail\DI\MailExtension
+	contributte.cache: Contributte\Cache\DI\CacheExtension
+
+# Console configuration
+contributte.console:
+	url: http://localhost/
+	name: KairoFlow
+	version: 1.0.0
+	catchExceptions: true
+	autoExit: true
+	helperSet: \Symfony\Component\Console\Helper\HelperSet
+	helpers: []
+
+# Event dispatcher
+contributte.events:
+	debug: %debugMode%
+	lazy: true
+
+# Monolog logging
+contributte.monolog:
+	holder:
+		enabled: true
+	hook:
+		toTracy: %debugMode%
+	channel:
+		default:
+			handlers:
+				- Monolog\Handler\RotatingFileHandler(%appDir%/../log/app.log, 30, Monolog\Logger::DEBUG)
+				- Monolog\Handler\StreamHandler(%appDir%/../log/error.log, Monolog\Logger::ERROR)
+			processors:
+				- Monolog\Processor\WebProcessor()
+				- Monolog\Processor\IntrospectionProcessor()
+				- Monolog\Processor\MemoryPeakUsageProcessor()
+				- Monolog\Processor\ProcessIdProcessor()
+
+# Cache configuration
+contributte.cache:
+	# Uses default Nette cache configuration

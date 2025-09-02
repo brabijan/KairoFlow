@@ -1,13 +1,21 @@
 #!/usr/bin/env php
 <?php
-declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
+declare(strict_types=1);
 
 use App\Bootstrap;
 
-$configurator = Bootstrap::boot();
-$container = $configurator->createContainer();
+require __DIR__ . '/../vendor/autoload.php';
 
-$application = $container->getByType(Contributte\Console\Application::class);
+// Set console mode
+$_ENV['NETTE_DEBUG'] = $_ENV['NETTE_DEBUG'] ?? '0';
+$_ENV['NETTE_ENV'] = $_ENV['NETTE_ENV'] ?? 'production';
+
+$container = Bootstrap::boot()
+    ->createContainer();
+
+// Get console application
+$application = $container->getByType(Symfony\Component\Console\Application::class);
+
+// Run
 exit($application->run());

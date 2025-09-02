@@ -1,0 +1,32 @@
+# Extension > Redis
+#
+extensions:
+	redis: Contributte\Redis\DI\RedisExtension
+
+# Redis configuration
+redis:
+	connection:
+		default:
+			host: %redis.host%
+			port: %redis.port%
+			password: %redis.password%
+			database: 0
+			timeout: 3.0
+			
+	# Optional: Multiple connections
+	# connection:
+	# 	cache:
+	# 		host: %redis.host%
+	# 		port: %redis.port%
+	# 		database: 1
+	# 	sessions:
+	# 		host: %redis.host%
+	# 		port: %redis.port%
+	# 		database: 2
+
+services:
+	# Register Redis client as a service
+	redis.client: @redis.connection.default.client
+	
+	# Use Redis for Nette cache storage
+	cache.storage: Nette\Caching\Storages\RedisStorage(@redis.client)

@@ -11,9 +11,25 @@ final class Bootstrap
     {
         $configurator = new Configurator();
         $appDir = dirname(__DIR__);
+        
+        // Detect console mode
+        $consoleMode = PHP_SAPI === 'cli';
+        $configurator->addStaticParameters([
+            'consoleMode' => $consoleMode,
+            'appDir' => $appDir,
+            'wwwDir' => $appDir . '/public',
+            'vendorDir' => $appDir . '/vendor',
+            'tempDir' => $appDir . '/temp',
+            'logDir' => $appDir . '/log',
+        ]);
 
         $configurator->setDebugMode(getenv('NETTE_DEBUG') === '1');
-        $configurator->enableTracy($appDir . '/log');
+        
+        // Don't enable Tracy in console mode
+        if (!$consoleMode) {
+            $configurator->enableTracy($appDir . '/log');
+        }
+        
         $configurator->setTempDirectory($appDir . '/temp');
 
         $configurator->createRobotLoader()

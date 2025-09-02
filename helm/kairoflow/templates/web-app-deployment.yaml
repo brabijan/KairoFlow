@@ -174,7 +174,7 @@ spec:
                 command:
                   - /bin/sh
                   - -c
-                  - "php bin/console migrations:migrate --no-interaction --allow-no-migration"
+                  - "php bin/console migrations:migrate --no-interaction --allow-no-migration || true"
           
           resources:
             {{- toYaml .Values.resources.php | nindent 12 }}

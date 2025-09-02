@@ -1,8 +1,11 @@
 parameters:
     # Default values (can be overridden by environment variables via parameters.php)
+    consoleMode: %consoleMode%
     database:
+        driver: pdo_pgsql
         host: postgres
         dbname: kairoflow
+        name: kairoflow
         user: kairoflow
         password: kairoflow_secure_password
         port: 5432
@@ -34,6 +37,12 @@ di:
     export:
         parameters: false
         tags: false
+
+# Include extension configurations
+includes:
+    - ext/nettrine.neon
+    - ext/contributte.neon
+    - ext/redis.neon
 
 routing:
     routes:
