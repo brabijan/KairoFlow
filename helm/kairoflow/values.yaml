@@ -110,34 +110,39 @@ env:
   PHP_UPLOAD_MAX_FILESIZE: "500M"
 
 # External database configuration
+# Leave empty to use defaults (for development/testing)
 database:
-  host: ""
-  port: "5432"
-  name: "kairoflow"
-  user: ""
-  password: ""  # Will be created as secret
+  host: ""  # Default: postgres.default.svc.cluster.local
+  port: ""  # Default: 5432
+  name: ""  # Default: kairoflow
+  user: ""  # Default: kairoflow
+  password: ""  # Default: changeme (auto-generated in production)
 
 # External Redis configuration
+# Leave empty to use defaults (for development/testing)
 redis:
-  host: ""
-  port: "6379"
-  password: ""  # Will be created as secret (optional)
+  host: ""  # Default: redis.default.svc.cluster.local
+  port: ""  # Default: 6379
+  password: ""  # Default: empty (no auth)
 
 # MinIO/S3 configuration
+# Leave empty to use defaults (for development/testing)
 minio:
-  endpoint: ""
-  accessKey: ""  # Will be created as secret
-  secretKey: ""  # Will be created as secret
+  endpoint: ""  # Default: minio.default.svc.cluster.local
+  accessKey: ""  # Default: minioadmin
+  secretKey: ""  # Default: minioadmin
   useSSL: true
 
 # OpenAI configuration
+# Leave empty to use placeholder
 openai:
-  apiKey: ""  # Will be created as secret
+  apiKey: ""  # Default: sk-placeholder
 
 # Application secrets
+# Leave empty to auto-generate random values
 appSecrets:
-  appSecret: ""  # Will be created as secret
-  jwtSecret: ""  # Will be created as secret
+  appSecret: ""  # Auto-generated if empty
+  jwtSecret: ""  # Auto-generated if empty
 
 # Persistent Volume Claims
 persistence:

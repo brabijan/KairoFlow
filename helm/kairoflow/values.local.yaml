@@ -1,0 +1,59 @@
+# Local development values for KairoFlow
+# This file contains all required values to ensure secrets are created
+
+# Database configuration (external PostgreSQL)
+database:
+  host: "postgres.local"  # Change to your actual PostgreSQL host
+  port: "5432"
+  name: "kairoflow"
+  user: "kairoflow_user"
+  password: "changeme"  # CHANGE THIS!
+
+# Redis configuration (external Redis)
+redis:
+  host: "redis.local"  # Change to your actual Redis host
+  port: "6379"
+  password: ""  # Leave empty if no auth required
+
+# MinIO/S3 configuration
+minio:
+  endpoint: "minio.local"  # Change to your actual MinIO/S3 endpoint
+  accessKey: "minioadmin"
+  secretKey: "minioadmin"  # CHANGE THIS!
+  useSSL: false  # Set to true for production
+
+# OpenAI configuration
+openai:
+  apiKey: "sk-placeholder"  # Add your actual OpenAI API key
+
+# Application secrets
+appSecrets:
+  appSecret: "changeme-app-secret-min-32-chars-long"  # Generate with: openssl rand -hex 32
+  jwtSecret: "changeme-jwt-secret-min-32-chars-long"  # Generate with: openssl rand -hex 32
+
+# GitHub Container Registry
+ghcr:
+  username: "brabijan"  # Your GitHub username
+  password: "ghp_xxxxxxxxxxxxxxxxxxxx"  # Your GitHub PAT with read:packages scope
+
+# Image configuration
+image:
+  nginx:
+    repository: ghcr.io/brabijan/kairoflow/nginx
+    tag: "latest"
+  php:
+    repository: ghcr.io/brabijan/kairoflow/php
+    tag: "latest"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  host: kairoflow.local  # Change to your actual domain
+
+# Environment settings
+env:
+  NETTE_ENV: "dev"  # Change to "prod" for production
+  NETTE_DEBUG: "1"   # Change to "0" for production
+
+# Namespace
+namespace: kairoflow
