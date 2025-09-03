@@ -75,7 +75,7 @@ data:
         listen [::]:80;
         server_name _;
 
-        root /var/www/html/www;
+        root /var/www/html/public;
         index index.php index.html;
 
         # Security headers
@@ -105,7 +105,7 @@ data:
 
         # Uploads directory
         location /uploads {
-            alias /var/www/html/www/uploads;
+            alias /var/www/html/public/uploads;
             expires 30d;
             add_header Cache-Control "public";
         }

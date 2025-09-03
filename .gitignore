@@ -17,6 +17,9 @@ docker/volumes/
 /public/uploads/*
 !/public/uploads/.gitkeep
 
+# Prevent accidental www folder creation
+/www/
+
 # IDE
 .idea/
 .vscode/
