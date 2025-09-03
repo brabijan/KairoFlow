@@ -7,11 +7,11 @@ extensions:
 redis:
 	connection:
 		default:
-			host: %redis.host%
-			port: %redis.port%
-			password: %redis.password%
-			database: 0
-			timeout: 3.0
+			uri: 'tcp://%redis.host%:%redis.port%'
+			options:
+				password: %redis.password%
+				database: 0
+				timeout: 3.0
 			
 	# Optional: Multiple connections
 	# connection:
@@ -28,5 +28,5 @@ services:
 	# Register Redis client as a service
 	redis.client: @redis.connection.default.client
 	
-	# Use Redis for Nette cache storage
-	cache.storage: Nette\Caching\Storages\RedisStorage(@redis.client)
+	# Use Redis for Nette cache storage (using the connection's default client which implements Predis\ClientInterface)
+	cache.storage: Contributte\Redis\Caching\RedisStorage(@redis.connection.default.client)

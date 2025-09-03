@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e2a684a0f4eae75b7ce02d7b42a63ec",
+    "content-hash": "fdce34e72d34722f714b42c00e7b1414",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -59,6 +59,85 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.1"
             },
             "time": "2024-10-01T13:55:55+00:00"
+        },
+        {
+            "name": "contributte/cache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/cache.git",
+                "reference": "c56580ade2184f0333cb15e2c93ced499a92135a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/cache/zipball/c56580ade2184f0333cb15e2c93ced499a92135a",
+                "reference": "c56580ade2184f0333cb15e2c93ced499a92135a",
+                "shasum": ""
+            },
+            "require": {
+                "nette/caching": "^3.0.0",
+                "php": ">=7.2"
+            },
+            "conflict": {
+                "nette/di": "<3.0.0"
+            },
+            "require-dev": {
+                "nette/di": "~3.0.0",
+                "ninjify/nunjuck": "^0.4",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "phpstan/phpstan-nette": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "tracy/tracy": "^2.6.0"
+            },
+            "suggest": {
+                "nette/di": "to use CacheFactoryExtension and DebugStorageExtension"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\Cache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Extra contrib to nette/cache",
+            "homepage": "https://github.com/contributte/cache",
+            "keywords": [
+                "cache",
+                "nette",
+                "provider"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/cache/issues",
+                "source": "https://github.com/contributte/cache/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-27T18:31:34+00:00"
         },
         {
             "name": "contributte/console",
@@ -130,6 +209,87 @@
                 }
             ],
             "time": "2024-01-04T20:10:58+00:00"
+        },
+        {
+            "name": "contributte/console-extra",
+            "version": "v0.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/console-extra.git",
+                "reference": "09e14dcde8676828976c4c86bd912c8a67835975"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/console-extra/zipball/09e14dcde8676828976c4c86bd912c8a67835975",
+                "reference": "09e14dcde8676828976c4c86bd912c8a67835975",
+                "shasum": ""
+            },
+            "require": {
+                "nette/di": "^3.1.8",
+                "php": ">=8.1",
+                "symfony/console": "^6.4.2 || ^7.0.2"
+            },
+            "conflict": {
+                "nette/schema": "<1.0.1"
+            },
+            "require-dev": {
+                "contributte/console": "~0.10",
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.4",
+                "latte/latte": "^3.0.12",
+                "mockery/mockery": "^1.5.0",
+                "nette/application": "^3.1.14",
+                "nette/bootstrap": "^3.2.1",
+                "nette/caching": "^3.2.3",
+                "nette/security": "^3.1.8"
+            },
+            "suggest": {
+                "contributte/console": "Symfony\\Console for Nette"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\Console\\Extra\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Nette-based console commands for latte, DIC, security, utils and many others",
+            "homepage": "https://github.com/contributte/console-extra",
+            "keywords": [
+                "console",
+                "nette",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/console-extra/issues",
+                "source": "https://github.com/contributte/console-extra/tree/v0.8.0"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-04T12:17:40+00:00"
         },
         {
             "name": "contributte/di",
@@ -209,7 +369,7 @@
         },
         {
             "name": "contributte/event-dispatcher",
-            "version": "v0.9.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/event-dispatcher.git",
@@ -234,6 +394,7 @@
                 "psr/log": "^2.0.0 || ^3.0.0",
                 "tracy/tracy": "^2.10.5"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -279,6 +440,165 @@
                 }
             ],
             "time": "2024-02-05T16:00:14+00:00"
+        },
+        {
+            "name": "contributte/event-dispatcher-extra",
+            "version": "v0.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/event-dispatcher-extra.git",
+                "reference": "a4180b3683082b1840478a28717ff09611d1ff31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/event-dispatcher-extra/zipball/a4180b3683082b1840478a28717ff09611d1ff31",
+                "reference": "a4180b3683082b1840478a28717ff09611d1ff31",
+                "shasum": ""
+            },
+            "require": {
+                "nette/di": "^3.1.9",
+                "php": ">=8.1",
+                "symfony/event-dispatcher": "^6.4.3 || ^7.0.3"
+            },
+            "conflict": {
+                "latte/latte": "<3.0.13"
+            },
+            "require-dev": {
+                "contributte/event-dispatcher": "^0.9.0",
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
+                "latte/latte": "^3.0.13",
+                "nette/application": "^3.1.10",
+                "nette/http": "^3.2.1",
+                "nette/security": "^3.1.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.11.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\Events\\Extra\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Nette-based Symfony events for application, presenter, form, latte, templates, security and many others.",
+            "homepage": "https://github.com/contributte/event-dispatcher-extra",
+            "keywords": [
+                "Bridge",
+                "application",
+                "dispatcher",
+                "event",
+                "form",
+                "latte",
+                "nette",
+                "security",
+                "template"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/event-dispatcher-extra/issues",
+                "source": "https://github.com/contributte/event-dispatcher-extra/tree/v0.10.1"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-05T19:02:34+00:00"
+        },
+        {
+            "name": "contributte/mail",
+            "version": "v0.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/mail.git",
+                "reference": "e3a1834ab8f95743c42de866a846ec6f76faf5ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/mail/zipball/e3a1834ab8f95743c42de866a846ec6f76faf5ab",
+                "reference": "e3a1834ab8f95743c42de866a846ec6f76faf5ab",
+                "shasum": ""
+            },
+            "require": {
+                "nette/mail": "^3.1.0 || ^4.0.0",
+                "nette/utils": "^3.2.9 || ^4.0.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "contributte/qa": "^0.4.0",
+                "contributte/tester": "^0.2.0",
+                "mockery/mockery": "^1.5.1",
+                "nette/di": "^3.1.2",
+                "phpstan/phpstan": "^1.10.11",
+                "phpstan/phpstan-deprecation-rules": "^1.1.3",
+                "phpstan/phpstan-nette": "^1.2.4",
+                "phpstan/phpstan-strict-rules": "^1.5.1",
+                "tracy/tracy": "^2.10.2"
+            },
+            "suggest": {
+                "contributte/di": "to use MailerExtension[CompilerExtension]"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\Mail\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Extra contrib to nette/mail",
+            "homepage": "https://github.com/contributte/mail",
+            "keywords": [
+                "extra",
+                "mail",
+                "nette"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/mail/issues",
+                "source": "https://github.com/contributte/mail/tree/v0.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-12-01T16:45:50+00:00"
         },
         {
             "name": "contributte/monolog",
@@ -354,6 +674,86 @@
             "time": "2023-07-21T08:28:12+00:00"
         },
         {
+            "name": "contributte/redis",
+            "version": "v0.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/redis.git",
+                "reference": "a754af3f520ba1ac801aaa6267053ddc1e99520e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/redis/zipball/a754af3f520ba1ac801aaa6267053ddc1e99520e",
+                "reference": "a754af3f520ba1ac801aaa6267053ddc1e99520e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "nette/di": "^2.4.17 || ^3.0.1",
+                "php": ">=7.2",
+                "predis/predis": "^1.1.6 || ^2.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.3",
+                "nette/caching": "^2.5.0 || ^3.1.3",
+                "nette/http": "^2.4.0 || ^3.0.1",
+                "ninjify/nunjuck": "^0.4",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-nette": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "tracy/tracy": "^2.7.0"
+            },
+            "suggest": {
+                "ext-igbinary": "For better serialization"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\Redis\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Redis client integration into Nette framework",
+            "homepage": "https://github.com/contributte/redis",
+            "keywords": [
+                "cache",
+                "nette",
+                "predis",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/redis/issues",
+                "source": "https://github.com/contributte/redis/tree/v0.5.4"
+            },
+            "funding": [
+                {
+                    "url": "https://contributte.org/partners.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/f3l1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-07-27T10:08:54+00:00"
+        },
+        {
             "name": "dasprid/enum",
             "version": "1.0.6",
             "source": {
@@ -405,30 +805,30 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.14.4",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "253dca476f70808a5aeed3a47cc2cc88c5cab915"
+                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/253dca476f70808a5aeed3a47cc2cc88c5cab915",
-                "reference": "253dca476f70808a5aeed3a47cc2cc88c5cab915",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/901c2ee5d26eb64ff43c47976e114bf00843acf7",
+                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7",
                 "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "^1 || ^2",
+                "doctrine/lexer": "^2 || ^3",
                 "ext-tokenizer": "*",
-                "php": "^7.1 || ^8.0",
+                "php": "^7.2 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3"
             },
             "require-dev": {
-                "doctrine/cache": "^1.11 || ^2.0",
-                "doctrine/coding-standard": "^9 || ^12",
-                "phpstan/phpstan": "~1.4.10 || ^1.10.28",
+                "doctrine/cache": "^2.0",
+                "doctrine/coding-standard": "^10",
+                "phpstan/phpstan": "^1.10.28",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "symfony/cache": "^4.4 || ^5.4 || ^6.4 || ^7",
+                "symfony/cache": "^5.4 || ^6.4 || ^7",
                 "vimeo/psalm": "^4.30 || ^5.14"
             },
             "suggest": {
@@ -475,22 +875,22 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.14.4"
+                "source": "https://github.com/doctrine/annotations/tree/2.0.2"
             },
-            "time": "2024-09-05T10:15:52+00:00"
+            "time": "2024-09-05T10:17:24+00:00"
         },
         {
             "name": "doctrine/cache",
-            "version": "1.13.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "56cd022adb5514472cb144c087393c1821911d09"
+                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/56cd022adb5514472cb144c087393c1821911d09",
-                "reference": "56cd022adb5514472cb144c087393c1821911d09",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/1ca8f21980e770095a31456042471a57bc4c68fb",
+                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",
                 "shasum": ""
             },
             "require": {
@@ -500,18 +900,12 @@
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "alcaeus/mongo-php-adapter": "^1.1",
                 "cache/integration-tests": "dev-master",
                 "doctrine/coding-standard": "^9",
-                "mongodb/mongodb": "^1.1",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "predis/predis": "~1.0",
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "symfony/cache": "^4.4 || ^5.4 || ^6",
                 "symfony/var-exporter": "^4.4 || ^5.4 || ^6"
-            },
-            "suggest": {
-                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
             },
             "type": "library",
             "autoload": {
@@ -560,7 +954,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.13.0"
+                "source": "https://github.com/doctrine/cache/tree/2.2.0"
             },
             "funding": [
                 {
@@ -576,7 +970,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-20T20:06:54+00:00"
+            "time": "2022-05-20T20:07:39+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -1256,28 +1650,27 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "2.1.1",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "861c870e8b75f7c8f69c146c7f89cc1c0f1b49b6"
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/861c870e8b75f7c8f69c146c7f89cc1c0f1b49b6",
-                "reference": "861c870e8b75f7c8f69c146c7f89cc1c0f1b49b6",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
                 "shasum": ""
             },
             "require": {
-                "doctrine/deprecations": "^1.0",
-                "php": "^7.1 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9 || ^12",
-                "phpstan/phpstan": "^1.3",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6",
+                "doctrine/coding-standard": "^12",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5",
                 "psalm/plugin-phpunit": "^0.18.3",
-                "vimeo/psalm": "^4.11 || ^5.21"
+                "vimeo/psalm": "^5.21"
             },
             "type": "library",
             "autoload": {
@@ -1314,7 +1707,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/lexer/issues",
-                "source": "https://github.com/doctrine/lexer/tree/2.1.1"
+                "source": "https://github.com/doctrine/lexer/tree/3.0.1"
             },
             "funding": [
                 {
@@ -1330,7 +1723,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-05T11:35:39+00:00"
+            "time": "2024-02-05T11:56:58+00:00"
         },
         {
             "name": "doctrine/migrations",
@@ -2851,28 +3244,31 @@
         },
         {
             "name": "nette/mail",
-            "version": "v4.0.3",
+            "version": "v3.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/mail.git",
-                "reference": "d99839701c48031d6f35e3be95bdd9418f66ad2d"
+                "reference": "804d70278458452863a2d6be4c1d5bf5f91b3950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/mail/zipball/d99839701c48031d6f35e3be95bdd9418f66ad2d",
-                "reference": "d99839701c48031d6f35e3be95bdd9418f66ad2d",
+                "url": "https://api.github.com/repos/nette/mail/zipball/804d70278458452863a2d6be4c1d5bf5f91b3950",
+                "reference": "804d70278458452863a2d6be4c1d5bf5f91b3950",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
-                "nette/utils": "^4.0",
-                "php": "8.0 - 8.4"
+                "nette/utils": "^3.1 || ~4.0.0",
+                "php": "7.1 - 8.3"
+            },
+            "conflict": {
+                "nette/di": "<3.0-stable"
             },
             "require-dev": {
-                "nette/di": "^3.1 || ^4.0",
-                "nette/tester": "^2.4",
-                "phpstan/phpstan-nette": "^1.0",
-                "tracy/tracy": "^2.8"
+                "nette/di": "^3.0.0",
+                "nette/tester": "^2.0",
+                "phpstan/phpstan-nette": "^0.12",
+                "tracy/tracy": "^2.4"
             },
             "suggest": {
                 "ext-fileinfo": "to detect type of attached files",
@@ -2881,7 +3277,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -2905,7 +3301,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "📧 Nette Mail: A handy library for creating and sending emails in PHP.",
+            "description": "📧 Nette Mail: handy email creation and transfer library for PHP with both text and MIME-compliant support.",
             "homepage": "https://nette.org",
             "keywords": [
                 "mail",
@@ -2916,9 +3312,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/mail/issues",
-                "source": "https://github.com/nette/mail/tree/v4.0.3"
+                "source": "https://github.com/nette/mail/tree/v3.1.11"
             },
-            "time": "2024-10-05T03:15:12+00:00"
+            "time": "2023-11-02T23:18:58+00:00"
         },
         {
             "name": "nette/neon",
@@ -3415,37 +3811,34 @@
         },
         {
             "name": "nettrine/annotations",
-            "version": "v0.7.0",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-annotations.git",
-                "reference": "fbb06d156a4edcbf37e4154e5b4ede079136388b"
+                "reference": "5a569c1f3efded560ad71704d73468147cb5d7fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-annotations/zipball/fbb06d156a4edcbf37e4154e5b4ede079136388b",
-                "reference": "fbb06d156a4edcbf37e4154e5b4ede079136388b",
+                "url": "https://api.github.com/repos/contributte/doctrine-annotations/zipball/5a569c1f3efded560ad71704d73468147cb5d7fb",
+                "reference": "5a569c1f3efded560ad71704d73468147cb5d7fb",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/annotations": "^1.6.1",
-                "nettrine/cache": "^0.3.0",
-                "php": ">=7.2"
+                "doctrine/annotations": "^2.0.2",
+                "nette/di": "^3.2.4",
+                "nettrine/cache": "^0.5.0 || ^0.6.0",
+                "php": ">=8.2"
             },
             "require-dev": {
-                "ninjify/qa": "^0.10.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan-deprecation-rules": "^0.11.0",
-                "phpstan/phpstan-nette": "^0.11.0",
-                "phpstan/phpstan-shim": "^0.11.5",
-                "phpstan/phpstan-strict-rules": "^0.11.0",
-                "phpunit/phpunit": "^8.1.0"
+                "contributte/phpstan": "^0.2",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
+                "symfony/cache": "^7.2.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.8.x-dev"
+                    "dev-master": "0.10.x-dev"
                 }
             },
             "autoload": {
@@ -3461,14 +3854,10 @@
                 {
                     "name": "Milan Felix Šulc",
                     "homepage": "https://f3l1x.io"
-                },
-                {
-                    "name": "Marek Bartoš",
-                    "homepage": "https://github.com/mabar"
                 }
             ],
             "description": "Doctrine Annotations for Nette Framework",
-            "homepage": "https://github.com/nettrine/annotations",
+            "homepage": "https://github.com/contributte/doctrine-annotations",
             "keywords": [
                 "annotations",
                 "doctrine",
@@ -3477,7 +3866,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-annotations/issues",
-                "source": "https://github.com/contributte/doctrine-annotations/tree/v0.7.0"
+                "source": "https://github.com/contributte/doctrine-annotations/tree/v0.9.0"
             },
             "funding": [
                 {
@@ -3489,40 +3878,38 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-10T18:01:50+00:00"
+            "time": "2025-01-10T16:17:33+00:00"
         },
         {
             "name": "nettrine/cache",
-            "version": "v0.3.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-cache.git",
-                "reference": "8a58596de24cdd61e45866ef8f35788675f6d2bc"
+                "reference": "85223ef25e1dd4e35471405aed254e9da983e4a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-cache/zipball/8a58596de24cdd61e45866ef8f35788675f6d2bc",
-                "reference": "8a58596de24cdd61e45866ef8f35788675f6d2bc",
+                "url": "https://api.github.com/repos/contributte/doctrine-cache/zipball/85223ef25e1dd4e35471405aed254e9da983e4a3",
+                "reference": "85223ef25e1dd4e35471405aed254e9da983e4a3",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/cache": "^1.8.0",
-                "php": ">=7.2"
+                "doctrine/cache": "^2.2.0",
+                "nette/di": "^3.2.4",
+                "php": ">=8.2",
+                "symfony/cache": "^7.2.1"
             },
             "require-dev": {
-                "ninjify/qa": "^0.9.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan-deprecation-rules": "^0.11.0",
-                "phpstan/phpstan-nette": "^0.11.0",
-                "phpstan/phpstan-shim": "^0.11.5",
-                "phpstan/phpstan-strict-rules": "^0.11.0",
-                "phpunit/phpunit": "^8.1.0"
+                "contributte/phpstan": "^0.2",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
+                "tracy/tracy": "^2.10.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3.x-dev"
+                    "dev-master": "0.6.x-dev"
                 }
             },
             "autoload": {
@@ -3532,16 +3919,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MPL-2.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Marek Bartoš",
-                    "homepage": "https://github.com/mabar"
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
                 }
             ],
             "description": "Doctrine Cache for Nette Framework",
-            "homepage": "https://github.com/nettrine/cache",
+            "homepage": "https://github.com/contributte/doctrine-cache",
             "keywords": [
                 "cache",
                 "doctrine",
@@ -3550,7 +3937,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-cache/issues",
-                "source": "https://github.com/contributte/doctrine-cache/tree/v0.3.0"
+                "source": "https://github.com/contributte/doctrine-cache/tree/v0.5.0"
             },
             "funding": [
                 {
@@ -3562,43 +3949,43 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-10T17:56:32+00:00"
+            "time": "2025-01-10T17:33:34+00:00"
         },
         {
             "name": "nettrine/dbal",
-            "version": "v0.8.2",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-dbal.git",
-                "reference": "e5d38af256c05617c1387ecba8f04ec58c32447a"
+                "reference": "15bd7770b098edb6c47909990506bdd7f6449d49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-dbal/zipball/e5d38af256c05617c1387ecba8f04ec58c32447a",
-                "reference": "e5d38af256c05617c1387ecba8f04ec58c32447a",
+                "url": "https://api.github.com/repos/contributte/doctrine-dbal/zipball/15bd7770b098edb6c47909990506bdd7f6449d49",
+                "reference": "15bd7770b098edb6c47909990506bdd7f6449d49",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/dbal": "^3.5.3",
-                "nettrine/cache": "^0.3.0",
-                "php": ">=7.4"
+                "doctrine/dbal": "^3.6.7",
+                "nette/di": "^3.2.2",
+                "nettrine/cache": "^0.4.0 || ^0.5.0",
+                "php": ">=8.1"
             },
             "conflict": {
+                "doctrine/event-manager": "<2.0.0",
                 "nette/di": "<3.0.6",
                 "nette/schema": "<1.1.0"
             },
             "require-dev": {
-                "contributte/console": "^0.9.1",
+                "contributte/console": "^0.10.1",
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
+                "ext-pdo": "*",
                 "mockery/mockery": "^1.3.5",
-                "ninjify/nunjuck": "^0.4",
-                "ninjify/qa": "^0.13",
-                "phpstan/phpstan": "^1.2.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0.0",
-                "phpstan/phpstan-nette": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.1.0",
-                "psr/log": "^1.1 || ^2.0 || ^3.0",
-                "tracy/tracy": "^2.6.2"
+                "nettrine/orm": "^0.9.0",
+                "psr/log": "^3.0",
+                "tracy/tracy": "^2.10.3"
             },
             "type": "library",
             "extra": {
@@ -3634,7 +4021,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-dbal/issues",
-                "source": "https://github.com/contributte/doctrine-dbal/tree/v0.8.2"
+                "source": "https://github.com/contributte/doctrine-dbal/tree/v0.9.0"
             },
             "funding": [
                 {
@@ -3646,42 +4033,39 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-13T16:26:05+00:00"
+            "time": "2024-07-22T07:03:27+00:00"
         },
         {
             "name": "nettrine/fixtures",
-            "version": "v0.6.4",
+            "version": "v0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-fixtures.git",
-                "reference": "ec9bc51ddc3222de778e4e51b42a69358cfcffe0"
+                "reference": "c5746665459f355230cef6368974301d2497c4dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-fixtures/zipball/ec9bc51ddc3222de778e4e51b42a69358cfcffe0",
-                "reference": "ec9bc51ddc3222de778e4e51b42a69358cfcffe0",
+                "url": "https://api.github.com/repos/contributte/doctrine-fixtures/zipball/c5746665459f355230cef6368974301d2497c4dd",
+                "reference": "c5746665459f355230cef6368974301d2497c4dd",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/data-fixtures": "^1.4.4",
-                "doctrine/orm": "^2.6.3",
-                "php": ">=7.2",
-                "symfony/console": "^4.2.5|^5.0.0|^6.0.0"
+                "doctrine/data-fixtures": "^1.6.6",
+                "doctrine/orm": "^2.15.2",
+                "nette/di": "^3.1.2",
+                "php": ">=8.1",
+                "symfony/console": "^6.2.0"
             },
             "require-dev": {
-                "mockery/mockery": "^1.3.3",
-                "ninjify/nunjuck": "^0.4",
-                "ninjify/qa": "^0.13",
-                "phpstan/phpstan": "^1.4.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0.0",
-                "phpstan/phpstan-nette": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.0.0"
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
+                "mockery/mockery": "^1.3.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.7.x-dev"
+                    "dev-master": "0.8.x-dev"
                 }
             },
             "autoload": {
@@ -3712,7 +4096,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-fixtures/issues",
-                "source": "https://github.com/contributte/doctrine-fixtures/tree/v0.6.4"
+                "source": "https://github.com/contributte/doctrine-fixtures/tree/v0.7.2"
             },
             "funding": [
                 {
@@ -3724,42 +4108,39 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-13T20:52:19+00:00"
+            "time": "2023-10-03T23:24:34+00:00"
         },
         {
             "name": "nettrine/migrations",
-            "version": "v0.8.1",
+            "version": "v0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-migrations.git",
-                "reference": "198eebdbcfb26db2135ea053175e17fde708eb08"
+                "reference": "41331ae024edd53a7ea7c96b6ae154c3c2e6ac8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-migrations/zipball/198eebdbcfb26db2135ea053175e17fde708eb08",
-                "reference": "198eebdbcfb26db2135ea053175e17fde708eb08",
+                "url": "https://api.github.com/repos/contributte/doctrine-migrations/zipball/41331ae024edd53a7ea7c96b6ae154c3c2e6ac8c",
+                "reference": "41331ae024edd53a7ea7c96b6ae154c3c2e6ac8c",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/migrations": "^3.1.0",
-                "php": ">=7.2",
-                "symfony/console": "^4.2.5|^5.0.0|^6.0.0"
+                "doctrine/migrations": "^3.6.0",
+                "nette/di": "^3.1.2",
+                "php": ">=8.1",
+                "symfony/console": "^6.2.0"
             },
             "require-dev": {
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
                 "doctrine/orm": "^2.6",
-                "mockery/mockery": "^1.3.0",
-                "ninjify/nunjuck": "^0.4",
-                "ninjify/qa": "^0.13",
-                "phpstan/phpstan": "^1.4.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0.0",
-                "phpstan/phpstan-nette": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.0.0"
+                "mockery/mockery": "^1.3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9.x-dev"
+                    "dev-master": "0.10.x-dev"
                 }
             },
             "autoload": {
@@ -3790,7 +4171,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-migrations/issues",
-                "source": "https://github.com/contributte/doctrine-migrations/tree/v0.8.1"
+                "source": "https://github.com/contributte/doctrine-migrations/tree/v0.9.3"
             },
             "funding": [
                 {
@@ -3802,49 +4183,48 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-27T18:27:17+00:00"
+            "time": "2025-01-10T15:58:01+00:00"
         },
         {
             "name": "nettrine/orm",
-            "version": "v0.8.4",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/doctrine-orm.git",
-                "reference": "d253e200217293ede49a4c4ca76c6e0d43b57242"
+                "reference": "f3afa2cf045259e1f4c996a693643510656ff95c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/doctrine-orm/zipball/d253e200217293ede49a4c4ca76c6e0d43b57242",
-                "reference": "d253e200217293ede49a4c4ca76c6e0d43b57242",
+                "url": "https://api.github.com/repos/contributte/doctrine-orm/zipball/f3afa2cf045259e1f4c996a693643510656ff95c",
+                "reference": "f3afa2cf045259e1f4c996a693643510656ff95c",
                 "shasum": ""
             },
             "require": {
-                "contributte/di": "^0.5.0",
-                "doctrine/common": "^2.13.1 || ^3.0.0",
-                "doctrine/orm": "^2.6.3",
-                "nettrine/annotations": "^0.7.0 || ^0.8.0",
-                "nettrine/cache": "^0.3.0 || ^0.4.0",
-                "nettrine/dbal": "^0.7.0 || ^0.8.0",
-                "php": ">=7.2",
-                "symfony/console": "^4.2.5|^5.0.0|^6.0.0"
+                "doctrine/common": "^3.4.3",
+                "doctrine/orm": "^2.14.0",
+                "nette/di": "^3.1.2",
+                "nettrine/annotations": "^0.8.0 || ^0.9.0",
+                "nettrine/cache": "^0.4.0 || ^0.5.0",
+                "nettrine/dbal": "^0.8.0 || ^0.9.0",
+                "php": ">=8.1",
+                "symfony/console": "^5.3.0 || ^6.2.0  || ^7.0.0 "
             },
             "conflict": {
+                "doctrine/persistence": "<3.0.0",
                 "nette/di": "<3.0.6",
                 "nette/schema": "<1.1.0"
             },
             "require-dev": {
+                "contributte/phpstan": "^0.1",
+                "contributte/qa": "^0.4",
+                "contributte/tester": "^0.3",
                 "mockery/mockery": "^1.3.1",
-                "ninjify/nunjuck": "^0.4",
-                "ninjify/qa": "^0.12",
-                "phpstan/phpstan": "^1.4.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0.0",
-                "phpstan/phpstan-nette": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.0.0"
+                "tracy/tracy": "^2.10.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.8.x-dev"
+                    "dev-master": "0.9.x-dev"
                 }
             },
             "autoload": {
@@ -3872,7 +4252,7 @@
             ],
             "support": {
                 "issues": "https://github.com/contributte/doctrine-orm/issues",
-                "source": "https://github.com/contributte/doctrine-orm/tree/v0.8.4"
+                "source": "https://github.com/contributte/doctrine-orm/tree/v0.9.0"
             },
             "funding": [
                 {
@@ -3884,7 +4264,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-27T18:27:01+00:00"
+            "time": "2024-08-20T09:11:52+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -4033,6 +4413,68 @@
                 }
             ],
             "time": "2025-04-24T15:19:31+00:00"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/predis/predis.git",
+                "reference": "f49e13ee3a2a825631562aa0223ac922ec5d058b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f49e13ee3a2a825631562aa0223ac922ec5d058b",
+                "reference": "f49e13ee3a2a825631562aa0223ac922ec5d058b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.3",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpcov": "^6.0 || ^8.0",
+                "phpunit/phpunit": "^8.0 || ^9.4"
+            },
+            "suggest": {
+                "ext-relay": "Faster connection with in-memory caching (>=0.6.2)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Till Krüss",
+                    "homepage": "https://till.im",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A flexible and feature-complete Redis/Valkey client for PHP.",
+            "homepage": "http://github.com/predis/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/predis/predis/issues",
+                "source": "https://github.com/predis/predis/tree/v2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/tillkruss",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-30T15:16:02+00:00"
         },
         {
             "name": "psr/cache",
@@ -4569,6 +5011,184 @@
                 }
             ],
             "time": "2024-06-12T11:22:32+00:00"
+        },
+        {
+            "name": "symfony/cache",
+            "version": "v7.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache.git",
+                "reference": "6621a2bee5373e3e972b2ae5dbedd5ac899d8cb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/6621a2bee5373e3e972b2ae5dbedd5ac899d8cb6",
+                "reference": "6621a2bee5373e3e972b2ae5dbedd5ac899d8cb6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/cache": "^2.0|^3.0",
+                "psr/log": "^1.1|^2|^3",
+                "symfony/cache-contracts": "^3.6",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/var-exporter": "^6.4|^7.0"
+            },
+            "conflict": {
+                "doctrine/dbal": "<3.6",
+                "symfony/dependency-injection": "<6.4",
+                "symfony/http-kernel": "<6.4",
+                "symfony/var-dumper": "<6.4"
+            },
+            "provide": {
+                "psr/cache-implementation": "2.0|3.0",
+                "psr/simple-cache-implementation": "1.0|2.0|3.0",
+                "symfony/cache-implementation": "1.1|2.0|3.0"
+            },
+            "require-dev": {
+                "cache/integration-tests": "dev-master",
+                "doctrine/dbal": "^3.6|^4",
+                "predis/predis": "^1.1|^2.0",
+                "psr/simple-cache": "^1.0|^2.0|^3.0",
+                "symfony/clock": "^6.4|^7.0",
+                "symfony/config": "^6.4|^7.0",
+                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/filesystem": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/messenger": "^6.4|^7.0",
+                "symfony/var-dumper": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Cache\\": ""
+                },
+                "classmap": [
+                    "Traits/ValueWrapper.php"
+                ],
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides extended PSR-6, PSR-16 (and tags) implementations",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "caching",
+                "psr6"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache/tree/v7.3.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-07-30T17:13:41+00:00"
+        },
+        {
+            "name": "symfony/cache-contracts",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache-contracts.git",
+                "reference": "5d68a57d66910405e5c0b63d6f0af941e66fc868"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/5d68a57d66910405e5c0b63d6f0af941e66fc868",
+                "reference": "5d68a57d66910405e5c0b63d6f0af941e66fc868",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/cache": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Cache\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to caching",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache-contracts/tree/v3.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-03-13T15:25:07+00:00"
         },
         {
             "name": "symfony/console",
@@ -8328,7 +8948,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4"
+        "php": "^8.3"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"

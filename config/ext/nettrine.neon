@@ -14,7 +14,7 @@ extensions:
 	nettrine.orm: Nettrine\ORM\DI\OrmExtension
 	nettrine.orm.cache: Nettrine\ORM\DI\OrmCacheExtension
 	nettrine.orm.console: Nettrine\ORM\DI\OrmConsoleExtension(%consoleMode%)
-	nettrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
+	# nettrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension  # Temporarily disabled
 
 # Database connection configuration
 nettrine.dbal:
@@ -40,10 +40,10 @@ nettrine.orm:
 nettrine.annotations:
 	cache: @nettrine.cache.adapter
 
-# Entity mapping
-nettrine.orm.annotations:
-	mapping:
-		App\Entity: %appDir%/Entity
+# Entity mapping (temporarily disabled)
+# nettrine.orm.annotations:
+# 	mapping:
+# 		App\Entity: %appDir%/Entity
 
 # Migrations configuration
 nettrine.migrations:

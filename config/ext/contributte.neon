@@ -6,9 +6,9 @@ extensions:
 	contributte.events: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	contributte.events2nette: Contributte\Events\Extra\DI\EventBridgesExtension
 	contributte.monolog: Contributte\Monolog\DI\MonologExtension
-	contributte.mailing: Contributte\Mailing\DI\MailingExtension
+	# contributte.mailing: Contributte\Mailing\DI\MailingExtension  # Removed due to package conflicts
 	contributte.mail: Contributte\Mail\DI\MailExtension
-	contributte.cache: Contributte\Cache\DI\CacheExtension
+	contributte.cache: Contributte\Cache\DI\CacheFactoryExtension
 
 # Console configuration
 contributte.console:

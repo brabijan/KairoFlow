@@ -27,7 +27,7 @@ RUN apk add --no-cache \
     git \
     unzip
 
-# Configure and install PHP extensions
+# Configure and install PHP extensions (except pcntl which may interfere with PECL)
 RUN docker-php-ext-configure gd \
     --with-freetype \
     --with-jpeg \
@@ -40,12 +40,14 @@ RUN docker-php-ext-configure gd \
     gd \
     opcache \
     bcmath \
-    sodium \
-    pcntl
+    sodium
 
-# Install Redis extension via PECL
+# Install PECL extensions first (before pcntl)
 RUN pecl install redis \
     && docker-php-ext-enable redis
+
+# Install pcntl last as it may interfere with PECL
+RUN docker-php-ext-install pcntl
 
 # Clean up build dependencies (keep runtime libraries)
 RUN apk del \
@@ -79,14 +81,15 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy composer files
 COPY composer.json composer.lock ./
 
-# Install dependencies
-RUN composer install \
+# Install dependencies with update for PHP 8.4 compatibility
+RUN composer update \
     --no-dev \
     --no-scripts \
     --no-autoloader \
     --prefer-dist \
     --no-progress \
-    --no-interaction
+    --no-interaction \
+    --with-all-dependencies
 
 # Copy application code
 COPY . .
@@ -130,16 +133,8 @@ RUN apk add --no-cache \
     $PHPIZE_DEPS \
     linux-headers
 
-# Install Xdebug
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
-# Configure Xdebug
-RUN { \
-        echo 'xdebug.mode=debug'; \
-        echo 'xdebug.client_host=host.docker.internal'; \
-        echo 'xdebug.start_with_request=yes'; \
-    } > /usr/local/etc/php/conf.d/xdebug.ini
+# Xdebug installation skipped due to PECL compatibility issues
+# TODO: Add Xdebug installation once PECL issues are resolved
 
 # Set development PHP configuration
 RUN { \
@@ -156,11 +151,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy application code
 COPY . .
 
-# Install dependencies with dev dependencies
-RUN composer install \
+# Install dependencies with dev dependencies and update for PHP 8.4 compatibility
+RUN composer update \
     --optimize-autoloader \
     --no-interaction \
-    --no-progress
+    --no-progress \
+    --with-all-dependencies
 
 # Create required directories
 RUN mkdir -p var/tmp/session var/tmp/recordings var/tmp/transcriptions var/log www/uploads temp log \
