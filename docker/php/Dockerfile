@@ -72,6 +72,40 @@ COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 # Set working directory
 WORKDIR /var/www/html
 
+# Development stage
+FROM base AS development
+
+# Install Composer for development
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Use development PHP configuration
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" || \
+    echo "display_errors = On" >> /usr/local/etc/php/conf.d/development.ini && \
+    echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/development.ini && \
+    echo "log_errors = On" >> /usr/local/etc/php/conf.d/development.ini
+
+# Copy development PHP-FPM config
+COPY docker/php/php-fpm-dev.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Install Xdebug for development
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Create necessary directories
+RUN mkdir -p var/log var/tmp/session var/tmp/recordings var/tmp/transcriptions temp log www/uploads \
+    && chmod -R 777 var temp log
+
+# Expose PHP-FPM port
+EXPOSE 9000
+
+# Run as www-data user
+USER www-data
+
+# Start PHP-FPM
+CMD ["php-fpm", "-F"]
+
 # Builder stage for application
 FROM base AS builder
 
