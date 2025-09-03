@@ -94,7 +94,7 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 WORKDIR /var/www/html
 
 # Create necessary directories
-RUN mkdir -p var/log var/tmp/session var/tmp/recordings var/tmp/transcriptions temp log www/uploads \
+RUN mkdir -p var/log var/tmp/session var/tmp/recordings var/tmp/transcriptions temp log public/uploads \
     && chmod -R 777 var temp log
 
 # Expose PHP-FPM port
